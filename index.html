@@ -1,0 +1,2437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMT Unit 5 Quiz • 265 Questions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .option { transition: all 0.2s; }
+    .option:hover { transform: translateX(8px); }
+    .selected { border-color: #3b82f6; background-color: #eff6ff; }
+    .correct { border-color: #22c55e; background-color: #f0fdf4; }
+    .wrong { border-color: #ef4444; background-color: #fef2f2; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-3xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900">EMT Unit 5 Quiz</h1>
+        <p class="text-gray-600 mt-1">265 Questions • Neurological to Renal Emergencies</p>
+      </div>
+      <div class="text-right">
+        <div class="text-sm font-medium text-gray-500">Question <span id="current-q">1</span> of 265</div>
+        <div class="w-64 h-2 bg-gray-200 rounded-full mt-2 overflow-hidden">
+          <div id="progress-bar" class="h-full bg-blue-600 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="category" class="text-sm font-semibold text-blue-600 mb-2"></div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+      <div id="question" class="text-xl leading-relaxed text-gray-800 font-medium"></div>
+    </div>
+
+    <div id="options" class="space-y-3 mb-8"></div>
+
+    <div class="flex justify-between items-center">
+      <button onclick="prevQuestion()" class="flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 font-medium">
+        <i class="fas fa-arrow-left"></i> Previous
+      </button>
+      <button onclick="nextQuestion()" class="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium">
+        Next <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+
+    <div id="explanation" class="mt-10 hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+      <div class="flex items-center gap-2 text-emerald-700 font-semibold mb-3">
+        <i class="fas fa-lightbulb"></i> Explanation
+      </div>
+      <div id="explain-text" class="text-gray-700 leading-relaxed"></div>
+    </div>
+
+    <div class="mt-12">
+      <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+        <i class="fas fa-list-check"></i> Review Panel
+        <span id="review-count" class="ml-auto text-sm bg-gray-200 px-3 py-1 rounded-full">0</span>
+      </h2>
+      <div id="review-list" class="grid grid-cols-8 gap-2"></div>
+    </div>
+  </div>
+
+  <script>
+    // ====================== PASTE YOUR FULL quizData HERE ======================
+    let quizData = [
+      {
+    q: "You have arrived on the scene of a call for a possible stroke. On your arrival, the patient denies signs and symptoms, is alert and oriented, and moves all extremities well. Her husband states that before you arrived the patient could not move her right arm and the left side of her face seemed to be \"slack.\" Which of the following has most likely occurred?",
+    a: ["a) The patient has had a subarachnoid hemorrhage", "b) The patient suffered a transient ischemic attack", "c) The patient suffered a stroke", "d) The patient is suffering from aphasia"],
+    correct: 1,
+    explain: "Correct Answer: b) The patient suffered a transient ischemic attack",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Normal consciousness is regulated by a series of neurologic circuits in the brain that compose the reticular activating system (RAS). The RAS has simple requirements to function properly. Which one of the following items is NOT one of those requirements?",
+    a: ["a) Sodium", "b) Oxygen", "c) Water", "d) Glucose"],
+    correct: 0,
+    explain: "Correct Answer: a) Sodium",
+    cat: "Chapter 22"
+  },
+  {
+    q: "What is epilepsy?",
+    a: ["a) A condition in which a person has multiple seizures usually controlled by medication", "b) A condition in which a person has generalized seizures that start in childhood", "c) A condition in which a person has an aura followed by seizure usually caused by infection", "d) A condition caused by congenital brain abnormalities that causes seizures only twice a year"],
+    correct: 0,
+    explain: "Correct Answer: a) A condition in which a person has multiple seizures usually controlled by medication",
+    cat: "Chapter 22"
+  },
+  {
+    q: "For the EMT, which of the following is the most important question to ask of a diabetic patient or his family members?",
+    a: ["a) Do you have a fruity taste in your mouth?", "b) Do you have a family history of diabetes?", "c) When was the last time you had something to eat?", "d) What kind of insulin do you take?"],
+    correct: 2,
+    explain: "Correct Answer: c) When was the last time you had something to eat?",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is NOT a sign or symptom of stroke?",
+    a: ["a) Chest pain", "b) Vomiting", "c) Sudden impairment of vision", "d) Seizure"],
+    correct: 0,
+    explain: "Correct Answer: a) Chest pain",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following blood glucose levels is considered normal for an adult?",
+    a: ["a) 180 mg/dL", "b) 40 mg/dL", "c) 150 mg/dL", "d) 80 mg/dL"],
+    correct: 3,
+    explain: "Correct Answer: d) 80 mg/dL",
+    cat: "Chapter 22"
+  },
+  {
+    q: "The signs and symptoms of a transient ischemic attack (TIA) may last up to:",
+    a: ["a) 30 minutes", "b) 6 hours", "c) 24 hours", "d) 1 hour"],
+    correct: 2,
+    explain: "Correct Answer: c) 24 hours",
+    cat: "Chapter 22"
+  },
+  {
+    q: "For the reticular activating system (RAS) to work correctly, what three substances are needed?",
+    a: ["a) Oxygen to perfuse brain tissue, glucose to nourish brain tissue, and water to keep the brain hydrated", "b) Oxygen to perfuse brain tissue, insulin to nourish brain tissue, and water to keep the brain hydrated", "c) Oxygen to perfuse brain tissue, insulin to nourish brain tissue, and sodium to keep the brain hydrated", "d) Oxygen to perfuse brain tissue, glucose to nourish brain tissue, and sodium to keep the brain hydrated"],
+    correct: 0,
+    explain: "Correct Answer: a) Oxygen to perfuse brain tissue, glucose to nourish brain tissue, and water to keep the brain hydrated",
+    cat: "Chapter 22"
+  },
+  {
+    q: "When assessing a conscious patient for a possible stroke using the Cincinnati Prehospital Stroke Scale, which of the following three functions should be tested by the EMT?",
+    a: ["a) Ability to walk, control of facial muscles, and balance", "b) Ability to walk, ability to hold both arms in an extended position for 10 seconds, and ability to name common objects", "c) Control of facial muscles, ability to speak, and ability to hold both arms in an extended position for 10 seconds", "d) Memory, ability to speak, and ability to track movement with the eyes"],
+    correct: 2,
+    explain: "Correct Answer: c) Control of facial muscles, ability to speak, and ability to hold both arms in an extended position for 10 seconds",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is the LEAST important question in obtaining the history of a seizure patient in the prehospital setting?",
+    a: ["a) Did the patient lose control of his bladder?", "b) What was the patient doing before the seizure?", "c) Does the patient have a family history of seizures?", "d) How did the patient behave during the seizure?"],
+    correct: 2,
+    explain: "Correct Answer: c) Does the patient have a family history of seizures?",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Many stroke patients are candidates for thrombolytic drugs. One of the most important things that an EMT can do to optimize the care of a stroke patient who is a candidate for the drugs is:",
+    a: ["a) transport the patient to a Level I trauma center", "b) transport to the closest hospital because the patient must go to the operating room as soon as possible", "c) do a thorough physical exam of the patient", "d) determine the exact time of onset of symptoms"],
+    correct: 3,
+    explain: "Correct Answer: d) determine the exact time of onset of symptoms",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following BEST describes status epilepticus?",
+    a: ["a) A seizure involving convulsions on only one side of the body", "b) A seizure that occurs without a known cause", "c) Two or more seizures with tonic-clonic activity without an intervening period of consciousness", "d) A period of drowsiness following tonic-clonic seizures"],
+    correct: 2,
+    explain: "Correct Answer: c) Two or more seizures with tonic-clonic activity without an intervening period of consciousness",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is a 44-year-old male with a history of diabetes. He is lying on the living room floor, unresponsive to all stimuli. He has a respiratory rate of 12 breaths per minute and heart rate of 112 beats per minute, and is pale and sweaty. Which of the following should you do to treat this patient?",
+    a: ["a) Place the patient in the recovery position to protect the airway and place oral glucose solution under the patient's tongue", "b) Encourage the patient's family to administer his insulin", "c) Apply oral glucose solution to a tongue depressor and insert it between the patient's cheek and gums", "d) Place the patient in the recovery position, administer oxygen, and monitor his airway status"],
+    correct: 3,
+    explain: "Correct Answer: d) Place the patient in the recovery position, administer oxygen, and monitor his airway status",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which is NOT one of the steps in managing a patient experiencing dizziness and syncope?",
+    a: ["a) Lay the patient flat", "b) Loosen any tight clothing around the neck", "c) Administer oxygen", "d) Apply cold packs to the patient's head"],
+    correct: 3,
+    explain: "Correct Answer: d) Apply cold packs to the patient's head",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is LEAST important for the patient who has stopped seizing before the EMT's arrival at the scene?",
+    a: ["a) Suctioning", "b) Administering oxygen", "c) Requesting advanced life support", "d) Checking for mechanism of injury"],
+    correct: 2,
+    explain: "Correct Answer: c) Requesting advanced life support",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the items below is NOT part of the Cincinnati Prehospital Stroke Scale?",
+    a: ["a) Ask the patient to smile", "b) Test for equal grip strength", "c) Test the patient for arm droop or lack of movement", "d) Have the patient repeat a simple sentence"],
+    correct: 1,
+    explain: "Correct Answer: b) Test for equal grip strength",
+    cat: "Chapter 22"
+  },
+  {
+    q: "The condition in which there is an insufficient amount of sugar in the blood is called:",
+    a: ["a) hypoglycemia", "b) hyperglycemia", "c) diabetic ketoacidosis", "d) tachycardia"],
+    correct: 0,
+    explain: "Correct Answer: a) hypoglycemia",
+    cat: "Chapter 22"
+  },
+  {
+    q: "A seizure that occurs spontaneously from an unknown cause is called:",
+    a: ["a) idiopathic", "b) toxinic", "c) hypoglycemic", "d) hypoxic"],
+    correct: 0,
+    explain: "Correct Answer: a) idiopathic",
+    cat: "Chapter 22"
+  },
+  {
+    q: "If the blood sugar level is very high, which of the following may result?",
+    a: ["a) Hyperactivity, excessive thirst, and polyuria", "b) Polyuria and hyperactivity", "c) Excessive insulin, excessive glucose, and excessive urination", "d) Excessive urination, excessive thirst, and excessive hunger"],
+    correct: 3,
+    explain: "Correct Answer: d) Excessive urination, excessive thirst, and excessive hunger",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is a 70-year-old man whose wife called EMS because her husband began exhibiting unusual behavior. Upon your arrival you introduce yourself to the patient, who responds, \"Not until nine o'clock.\" This phenomenon is BEST described as:",
+    a: ["a) expressive aphasia", "b) unresponsive to verbal stimuli", "c) receptive aphasia", "d) disorientation to time"],
+    correct: 2,
+    explain: "Correct Answer: c) receptive aphasia",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Many factors that cause dizziness and syncope are generally related to the:",
+    a: ["a) lungs", "b) brain", "c) heart", "d) kidneys"],
+    correct: 1,
+    explain: "Correct Answer: b) brain",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Looking at the following list, which of the items does NOT correctly compare the signs and symptoms of hypoglycemia and hyperglycemia?",
+    a: ["a) Hyperglycemia usually has a slower onset than hypoglycemia", "b) The hyperglycemic patient often has acetone breath, whereas the hypoglycemic patient does not", "c) The hypoglycemic patient usually complains of a headache, whereas the hyperglycemic patient does not", "d) Hyperglycemic patients often have warm, red, dry skin, whereas hypoglycemic patients have cold, pale, moist, or clammy skin"],
+    correct: 2,
+    explain: "Correct Answer: c) The hypoglycemic patient usually complains of a headache, whereas the hyperglycemic patient does not",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is the cause of most strokes?",
+    a: ["a) A ruptured cerebral artery due to an aneurysm", "b) A ruptured cerebral artery due to hypertension", "c) A spasm in an artery supplying part of the brain", "d) Blockage of an artery supplying part of the brain"],
+    correct: 3,
+    explain: "Correct Answer: d) Blockage of an artery supplying part of the brain",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is characteristic of a patient with hyperglycemia?",
+    a: ["a) A \"fruity\" odor of the breath", "b) Pale and sweaty skin, confusion, and increased heart rate", "c) Use of excessive amounts of insulin or lack of adequate food intake", "d) Sudden onset of altered mental status"],
+    correct: 0,
+    explain: "Correct Answer: a) A \"fruity\" odor of the breath",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is an unresponsive 30-year-old male wearing a Medic-Alert bracelet indicating that he is a diabetic. ... Which of the following should you do next?",
+    a: ["a) Apply oxygen and begin transport without taking further action", "b) Administer oral glucose, as it will not cause additional harm in hyperglycemia but may prevent brain damage if the patient is hypoglycemic", "c) Use the patient's glucometer to check his blood sugar level", "d) Use your glucometer to check his blood sugar level"],
+    correct: 0,
+    explain: "Correct Answer: a) Apply oxygen and begin transport without taking further action",
+    cat: "Chapter 22"
+  },
+  {
+    q: "There are two types of seizures; if your patient is having a seizure that affects only one body part and does not cause her to lose consciousness, it is called a:",
+    a: ["a) generalized seizure", "b) partial seizure", "c) tonic-clonic seizure", "d) postictal seizure"],
+    correct: 1,
+    explain: "Correct Answer: b) partial seizure",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Treatment of someone with a seizure disorder includes all of the following EXCEPT:",
+    a: ["a) placing a bite block in the patient's mouth so that he does not bite his tongue", "b) removing objects that might harm the patient", "c) placing the patient on the floor or ground", "d) loosening restrictive clothing"],
+    correct: 0,
+    explain: "Correct Answer: a) placing a bite block in the patient's mouth so that he does not bite his tongue",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Many diabetics today have an insulin pump. Which of the following statements about insulin pumps is NOT true?",
+    a: ["a) They are usually worn around the ankle", "b) They are about the size of a deck of cards", "c) They have a catheter that enters into the abdomen or thigh", "d) They are usually worn on the belt"],
+    correct: 0,
+    explain: "Correct Answer: a) They are usually worn around the ankle",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is a 19-year-old female who is 7 months pregnant. She just experienced a seizure. ... Which of the following is the most likely cause of the seizure?",
+    a: ["a) Trauma", "b) Eclampsia", "c) Hypoglycemia", "d) Any of the above"],
+    correct: 1,
+    explain: "Correct Answer: b) Eclampsia",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is one of the most common characteristics of a stroke?",
+    a: ["a) Sudden onset of violent behavior", "b) Weakness on one side of the body", "c) Projectile vomiting", "d) Sudden, severe headache"],
+    correct: 1,
+    explain: "Correct Answer: b) Weakness on one side of the body",
+    cat: "Chapter 22"
+  },
+  {
+    q: "A patient who demonstrates any one of the three symptoms from the Cincinnati Prehospital Stroke Scale has a(n) ________% chance of having an acute stroke.",
+    a: ["a) 60", "b) 80", "c) 70", "d) 50"],
+    correct: 2,
+    explain: "Correct Answer: c) 70",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following may result in hypoglycemia in the diabetic patient?",
+    a: ["a) Overeating", "b) Failure to take insulin or oral diabetes medications", "c) Lack of exercise", "d) Vomiting after eating a meal"],
+    correct: 3,
+    explain: "Correct Answer: d) Vomiting after eating a meal",
+    cat: "Chapter 22"
+  },
+  {
+    q: "You respond to a 32-year-old female who is having a seizure. You arrive on the scene to find the patient drowsy, confused, and complaining of a headache. This patient is demonstrating the:",
+    a: ["a) tonic phase", "b) clonic phase", "c) aura phase", "d) postictal phase"],
+    correct: 3,
+    explain: "Correct Answer: d) postictal phase",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is a 21-year-old female with a history of epilepsy. She is having a convulsion upon your arrival. Which of the following should you do?",
+    a: ["a) Move furniture and other objects away from the patient to prevent injury", "b) Insert a bite block, cloth, wallet, or similar item between the patient's teeth to prevent her from biting her tongue", "c) Restrain the patient's extremities to prevent injury from flailing of the arms and legs", "d) Place a tongue depressor or spoon in the back of the mouth to prevent the patient from swallowing her tongue"],
+    correct: 0,
+    explain: "Correct Answer: a) Move furniture and other objects away from the patient to prevent injury",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is waking up from a seizure; it was the patient's first seizure ever. When you ask what happened, the patient tells you she had the smell of fresh mown grass just before she seized. This sensation is known as a(n):",
+    a: ["a) tonic phase", "b) clonic phase", "c) postictal phase", "d) aura"],
+    correct: 3,
+    explain: "Correct Answer: d) aura",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Most of the diabetic emergencies that you will be called to deal with will be related to hypoglycemia. However, occasionally you will experience an instance of hyperglycemia. In the list below, which item is NOT likely to be a sign or symptom of hyperglycemia?",
+    a: ["a) Excessive urination", "b) Nausea", "c) Chronic thirst", "d) Reduced rate of breathing"],
+    correct: 3,
+    explain: "Correct Answer: d) Reduced rate of breathing",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is a standardized test to evaluate a conscious patient for possible stroke?",
+    a: ["a) Michigan TIA Assessment", "b) Cincinnati Prehospital Stroke Scale", "c) The Functional Analysis Stroke Test", "d) The Numbness-Aphasia-Paralysis (NAP) Test"],
+    correct: 1,
+    explain: "Correct Answer: b) Cincinnati Prehospital Stroke Scale",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is a 25-year-old female with a history of diabetes. She is confused, agitated, and verbally abusive to you, and she is very sweaty. ... which of the following should you suspect as the likely cause?",
+    a: ["a) Failure to intake sufficient sugar", "b) Failure to take her insulin", "c) Excessive intake of foods high in sugar, such as soda or candy", "d) A nondiabetic-related problem, such as a head injury or mental illness"],
+    correct: 0,
+    explain: "Correct Answer: a) Failure to intake sufficient sugar",
+    cat: "Chapter 22"
+  },
+  {
+    q: "With advances in clot-busting (thrombolytic) drugs, the patient has a window of ________ hours to receive treatment.",
+    a: ["a) 4", "b) 5", "c) 6", "d) 3"],
+    correct: 3,
+    explain: "Correct Answer: d) 3",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Compared to hypoglycemia, which of the following is TRUE of hyperglycemia?",
+    a: ["a) It is more easily treated in the prehospital environment than hypoglycemia", "b) Its onset is more sudden", "c) Its onset is preceded by an aura, such as hallucinations or detecting unusual odors", "d) Its onset is more gradual"],
+    correct: 3,
+    explain: "Correct Answer: d) Its onset is more gradual",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following conditions may be mimicked by hypoglycemia?",
+    a: ["a) Heart attack", "b) Intoxication", "c) Respiratory distress", "d) All of the above"],
+    correct: 1,
+    explain: "Correct Answer: b) Intoxication",
+    cat: "Chapter 22"
+  },
+  {
+    q: "The most common medical emergency for the diabetic is hypoglycemia, or low blood sugar. Which of the factors below is NOT a cause of hypoglycemia?",
+    a: ["a) Takes too much insulin", "b) Vomits a meal", "c) Reduces sugar intake by eating too much", "d) Over-exercises or over-exerts himself"],
+    correct: 2,
+    explain: "Correct Answer: c) Reduces sugar intake by eating too much",
+    cat: "Chapter 22"
+  },
+  {
+    q: "When someone is experiencing hypoglycemia, the body attempts to compensate by using the fight-or-flight mechanism of the autonomic nervous system. Which of the following is NOT one of the fight-or-flight responses?",
+    a: ["a) The skin is hot and dry", "b) Blood vessels constrict", "c) The heart pumps faster", "d) Breathing accelerates"],
+    correct: 0,
+    explain: "Correct Answer: a) The skin is hot and dry",
+    cat: "Chapter 22"
+  },
+  {
+    q: "The medical term for fainting is:",
+    a: ["a) altered RAS status", "b) vertigo", "c) syncope", "d) dehydration"],
+    correct: 2,
+    explain: "Correct Answer: c) syncope",
+    cat: "Chapter 22"
+  },
+  {
+    q: "The death of brain tissue due to deprivation of oxygen because of a blocked or ruptured artery in the brain is known as which of the following?",
+    a: ["a) Aphasia", "b) Transient ischemic attack", "c) Stroke", "d) Seizure"],
+    correct: 2,
+    explain: "Correct Answer: c) Stroke",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is within the EMT's scope of practice for the treatment of the diabetic patient?",
+    a: ["a) Assisting the patient with the administration of his insulin", "b) Administration of oral glucose", "c) Rectal administration of glucose", "d) Both A and B"],
+    correct: 1,
+    explain: "Correct Answer: b) Administration of oral glucose",
+    cat: "Chapter 22"
+  },
+  {
+    q: "A hormone called insulin is secreted by the:",
+    a: ["a) gallbladder found in the pancreas", "b) islets of Langerhans in the liver", "c) islets of Langerhans in the pancreas", "d) None of the above"],
+    correct: 2,
+    explain: "Correct Answer: c) islets of Langerhans in the pancreas",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is the MOST critical piece of equipment to have immediately available for the seizure patient who has just stopped convulsing?",
+    a: ["a) Cervical collar", "b) Glucometer", "c) Bite block", "d) Suction"],
+    correct: 3,
+    explain: "Correct Answer: d) Suction",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is the most common cause of seizures in adults?",
+    a: ["a) Withdrawal from alcohol", "b) Failure to take prescribed medication", "c) Head trauma", "d) Fever"],
+    correct: 1,
+    explain: "Correct Answer: b) Failure to take prescribed medication",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Your patient is a 59-year-old female with a sudden onset of slurred speech and weakness on her right side. Which of the following measures is appropriate?",
+    a: ["a) Immediately transport the patient to a hospital with specialized treatment for stroke patients", "b) Keep the patient in a supine position", "c) Administer oral glucose and then assess the patient's blood sugar", "d) Test the patient's sensation with a series of pinpricks, beginning at the feet and working upward"],
+    correct: 0,
+    explain: "Correct Answer: a) Immediately transport the patient to a hospital with specialized treatment for stroke patients",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is a typical cause of seizures in children 6 months to 3 years of age?",
+    a: ["a) Chest pain", "b) Asthma", "c) Fever", "d) Administration of glucose to a hyperglycemic patient"],
+    correct: 2,
+    explain: "Correct Answer: c) Fever",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following statements about seizures is NOT true?",
+    a: ["a) Many seizures are followed by an aura", "b) A generalized seizure affects the entire brain", "c) The most common seizure that EMTs are likely to be called on is a tonic-clonic seizure", "d) A partial seizure affects one part, or one side, of the brain"],
+    correct: 0,
+    explain: "Correct Answer: a) Many seizures are followed by an aura",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is an action of insulin?",
+    a: ["a) It increases the circulating level of glucose in the blood", "b) It assists the transfer of sugar from the stomach and small intestine to the bloodstream", "c) It blocks the uptake of sugar by the body's cells", "d) It helps the movement of sugar from the bloodstream to the cell"],
+    correct: 3,
+    explain: "Correct Answer: d) It helps the movement of sugar from the bloodstream to the cell",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is NOT a sign of a hypoglycemic diabetic emergency?",
+    a: ["a) Anxiety", "b) Combativeness", "c) Slow heart rate", "d) Cold, clammy skin"],
+    correct: 2,
+    explain: "Correct Answer: c) Slow heart rate",
+    cat: "Chapter 22"
+  },
+  {
+    q: "During your primary assessment, you find your patient has an altered mental status. This could indicate which of the following?",
+    a: ["a) Problems with the RAS due to hypertension", "b) The need to complete a secondary assessment", "c) The need for suctioning of the airway", "d) Failing respiratory system"],
+    correct: 3,
+    explain: "Correct Answer: d) Failing respiratory system",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following is the role of glucose in the body?",
+    a: ["a) It assists the pancreas in the manufacture of insulin", "b) It provides energy for brain cells and other cells in the body", "c) It allows the body to use insulin", "d) It is an essential building block for body tissues, such as muscle and bone"],
+    correct: 1,
+    explain: "Correct Answer: b) It provides energy for brain cells and other cells in the body",
+    cat: "Chapter 22"
+  },
+  {
+    q: "Which of the following refers to difficulty in using words or understanding speech as a result of a stroke?",
+    a: ["a) Ischemia", "b) Aphasia", "c) Ataxia", "d) Hemiparesis"],
+    correct: 1,
+    explain: "Correct Answer: b) Aphasia",
+    cat: "Chapter 22"
+  },
+
+  // Chapter 23 - Allergic Reactions
+  {
+    q: "Your patient has eaten a casserole that may have contained seafood. The patient is worried because he has a seafood allergy. Upon assessment, you find no signs or symptoms of anaphylaxis. ... Which of the following actions is most appropriate?",
+    a: ["a) Transport the patient rapidly before the onset of anaphylaxis", "b) Advise the patient that he does not require treatment and transport at this time", "c) Try to find out if the casserole contained seafood", "d) Assist him with the administration of his epinephrine auto-injector"],
+    correct: 2,
+    explain: "Correct Answer: c) Try to find out if the casserole contained seafood",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following explains why a patient may experience difficulty breathing during anaphylaxis?",
+    a: ["a) Swelling of the airway tissues causes difficulty breathing", "b) Allergens clump together and block blood flow through the lungs", "c) Swelling in the brain decreases the respiratory drive", "d) Allergens bind to hemoglobin, preventing it from carrying oxygen"],
+    correct: 0,
+    explain: "Correct Answer: a) Swelling of the airway tissues causes difficulty breathing",
+    cat: "Chapter 23"
+  },
+  {
+    q: "At which of the following sites should the EMT administer an epinephrine auto-injector?",
+    a: ["a) Upper arm", "b) Buttocks", "c) Abdomen", "d) Thigh"],
+    correct: 3,
+    explain: "Correct Answer: d) Thigh",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is included in the primary assessment of a conscious patient suffering from anaphylactic shock?",
+    a: ["a) Determining whether the patient's systolic blood pressure is over 100 mmHg", "b) Looking for hives and swelling", "c) Assessing whether the patient is able to speak without difficulty", "d) Finding out how the patient was exposed to the substance to which she is allergic"],
+    correct: 2,
+    explain: "Correct Answer: c) Assessing whether the patient is able to speak without difficulty",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are on the scene of a 40-year-old male patient who is anaphylactic and still unresponsive following a single epinephrine injection. ... What is the next action you should perform?",
+    a: ["a) Hyperventilate the patient", "b) Place the patient on a nonrebreather mask", "c) Discontinue bagging the patient", "d) Contact medical control and request to administer another dose of epinephrine"],
+    correct: 3,
+    explain: "Correct Answer: d) Contact medical control and request to administer another dose of epinephrine",
+    cat: "Chapter 23"
+  },
+  {
+    q: "What is another name for a severe allergic reaction?",
+    a: ["a) Stridor", "b) Urticaria", "c) Respiratory distress", "d) Anaphylaxis"],
+    correct: 3,
+    explain: "Correct Answer: d) Anaphylaxis",
+    cat: "Chapter 23"
+  },
+  {
+    q: "After administering epinephrine per medical control via an auto-injector to an unresponsive anaphylactic adult patient, ... What is your suspicion regarding the patient's condition?",
+    a: ["a) The patient's condition is improving", "b) The patient is about to go into cardiac arrest", "c) There is no change in the patient's condition", "d) The patient's condition is worsening"],
+    correct: 0,
+    explain: "Correct Answer: a) The patient's condition is improving",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following statements concerning severe allergic reactions is true?",
+    a: ["a) A severe allergic reaction occurs only when the patient has never been exposed to the substance before", "b) Severe reactions often occur immediately, but they are occasionally delayed 30 minutes or more", "c) A severe allergic reaction can be prevented by the use of an epinephrine auto-injector before exposure to the substance", "d) Allergies do not develop until a person is in his late teens to early 20s"],
+    correct: 1,
+    explain: "Correct Answer: b) Severe reactions often occur immediately, but they are occasionally delayed 30 minutes or more",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is not a side effect of epinephrine?",
+    a: ["a) Chest pain", "b) Vomiting", "c) Bradycardia", "d) Pallor"],
+    correct: 2,
+    explain: "Correct Answer: c) Bradycardia",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is the result of histamine and other chemicals in the body during anaphylaxis?",
+    a: ["a) Urticaria occurs due to fluid being shunted from the skin...", "b) Capillaries become leaky, bronchoconstriction occurs, and swelling appears in areas around the vocal cords", "c) Bronchodilation occurs, blood vessels dilate...", "d) Blood vessels constrict, capillaries become leaky..."],
+    correct: 1,
+    explain: "Correct Answer: b) Capillaries become leaky, bronchoconstriction occurs, and swelling appears in areas around the vocal cords",
+    cat: "Chapter 23"
+  },
+  {
+    q: "When documenting the administration of an epinephrine auto-injector, which of the following should be included?",
+    a: ["a) Patient's response to the medication", "b) Time the medication was administered", "c) Site of medication administration", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are on the scene of a motor vehicle collision ... Which of the following should you do first?",
+    a: ["a) Search the patient for an epinephrine auto-injector", "b) Read the candy wrapper to see if it contains peanuts", "c) Administer high-concentration oxygen", "d) Perform rapid extrication"],
+    correct: 2,
+    explain: "Correct Answer: c) Administer high-concentration oxygen",
+    cat: "Chapter 23"
+  },
+  {
+    q: "After activating the EpiPen® auto-injector, how long should it be held in place before removing it from the patient's thigh?",
+    a: ["a) 30 seconds", "b) 10 seconds", "c) It should be removed from the injection site immediately", "d) 1 minute"],
+    correct: 1,
+    explain: "Correct Answer: b) 10 seconds",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following does not commonly lead to anaphylaxis?",
+    a: ["a) Wasp stings", "b) Cat dander", "c) Penicillin", "d) Peanuts"],
+    correct: 1,
+    explain: "Correct Answer: b) Cat dander",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You have responded to a park where you find a 23-year-old female ... She is most likely suffering from which of the following?",
+    a: ["a) Anaphylaxis", "b) Allergic reaction", "c) Heat stroke", "d) Hyperventilation syndrome"],
+    correct: 0,
+    explain: "Correct Answer: a) Anaphylaxis",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following does a physician not take into consideration when writing a prescription for a patient to obtain an epinephrine auto-injector?",
+    a: ["a) Patient's known allergies", "b) Patient's medical history", "c) Severity of previous allergic reactions", "d) How far the patient lives from medical attention"],
+    correct: 3,
+    explain: "Correct Answer: d) How far the patient lives from medical attention",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is a trade name for an epinephrine auto-injector?",
+    a: ["a) AllerPen", "b) Anajector", "c) EpiPen", "d) Autodrenalin"],
+    correct: 2,
+    explain: "Correct Answer: c) EpiPen",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following happens to blood vessels during an anaphylactic reaction?",
+    a: ["a) Constriction", "b) No change", "c) Spasm", "d) Dilation"],
+    correct: 3,
+    explain: "Correct Answer: d) Dilation",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are called to the local park on a hot summer day for an 8-year-old child in respiratory distress. ... What condition do you suspect?",
+    a: ["a) Heat exhaustion", "b) Allergic reaction", "c) Anaphylaxis", "d) Asthma"],
+    correct: 2,
+    explain: "Correct Answer: c) Anaphylaxis",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following would you expect to hear when auscultating the lungs of a patient having an anaphylactic reaction?",
+    a: ["a) Fine, wet crackles or rales", "b) Wheezing", "c) Clear, adequate air movement", "d) Coarse-sounding rhonchi"],
+    correct: 1,
+    explain: "Correct Answer: b) Wheezing",
+    cat: "Chapter 23"
+  },
+  {
+    q: "A 35-year-old female has just eaten lobster and is now complaining of itchy, watery eyes. ... Which of the following best describes her condition?",
+    a: ["a) Mild allergy", "b) Anaphylaxis", "c) Shock", "d) Dyspnea"],
+    correct: 1,
+    explain: "Correct Answer: b) Anaphylaxis",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Your patient has a history of severe anaphylaxis and carries several auto-injectors. ... Which of the following is the next best course of action?",
+    a: ["a) Immediately administer a second auto-injector", "b) Divert transport to a hospital with critical care capabilities", "c) Contact medical control", "d) Continue supportive care en route to the hospital"],
+    correct: 2,
+    explain: "Correct Answer: c) Contact medical control",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is a general term for a substance to which the body may have an anaphylactic reaction?",
+    a: ["a) Antibody", "b) Allergen", "c) Pyrogen", "d) Pathogen"],
+    correct: 1,
+    explain: "Correct Answer: b) Allergen",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are treating a 28-year-old female who is 34 weeks pregnant. ... Which of the following is the best option for the EMT?",
+    a: ["a) Immediately administer the patient's EpiPen®", "b) Transport rapidly, bypassing the emergency department...", "c) Do not administer the EpiPen® under any circumstances", "d) Administer the EpiPen® only on the advice of medical control"],
+    correct: 3,
+    explain: "Correct Answer: d) Administer the EpiPen® only on the advice of medical control",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is most likely to be a complaint of a patient suffering from anaphylaxis?",
+    a: ["a) \"I can't remember what happened.\"", "b) \"My legs are numb and I can't move them.\"", "c) \"I am having severe muscle pains.\"", "d) \"My throat feels like it is closing.\""],
+    correct: 3,
+    explain: "Correct Answer: d) \"My throat feels like it is closing.\"",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are unsure whether a patient's condition requires the administration of an epinephrine auto-injector. Which of the following actions is most appropriate?",
+    a: ["a) Ask a family member if this is the type of situation when the patient usually takes his auto-injector", "b) Administer the epinephrine, just in case", "c) Consult with a paramedic on your service for advice", "d) None of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) None of the above",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are called to a residence for a 60-year-old male complaining of chest pain. ... What condition do you suspect?",
+    a: ["a) Anaphylaxis", "b) Angina pectoris", "c) Acute myocardial infarction", "d) Asthma"],
+    correct: 0,
+    explain: "Correct Answer: a) Anaphylaxis",
+    cat: "Chapter 23"
+  },
+  {
+    q: "If a patient is having a myocardial infarction-not an allergic reaction-and receives an epinephrine auto-injection, which of the following will most likely occur?",
+    a: ["a) No reaction if administered inadvertently", "b) Stronger and faster heartbeat", "c) Bradycardia", "d) Relief of shortness of breath"],
+    correct: 1,
+    explain: "Correct Answer: b) Stronger and faster heartbeat",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is not a sign or symptom of an allergic reaction involving the skin?",
+    a: ["a) Cyanosis", "b) Itching", "c) Hives", "d) Flushing"],
+    correct: 0,
+    explain: "Correct Answer: a) Cyanosis",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You respond to a local swim park for a 29-year-old male who was stung by a bee and \"passed out.\" ... What is the best action?",
+    a: ["a) Request an ALS unit", "b) Request orders from medical control to administer epinephrine", "c) Hyperventilate the patient", "d) Request orders from medical control for an emergency cricothyroidotomy"],
+    correct: 1,
+    explain: "Correct Answer: b) Request orders from medical control to administer epinephrine",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are on the scene of a 22-year-old female patient who is unresponsive. The patient's mother states that she is deathly allergic to peanuts ... What is your first action?",
+    a: ["a) Insert an oral airway and apply oxygen at 15 liters per minute by bag-valve mask", "b) Insert an oral airway and apply oxygen at 15 liters per minute by nonrebreather mask", "c) Administer epinephrine with medical control consent", "d) Perform a complete assessment and confirm that the patient is actually in anaphylaxis"],
+    correct: 0,
+    explain: "Correct Answer: a) Insert an oral airway and apply oxygen at 15 liters per minute by bag-valve mask",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are called to a residence for a 50-year-old male complaining of difficulty breathing. ... What is the best treatment for the patient?",
+    a: ["a) Rapid transport to the nearest facility", "b) Oxygen at 15 liters per minute by bag-valve mask", "c) Administering epinephrine with consent from medical control", "d) Oxygen at 15 liters per minute by nonrebreather mask"],
+    correct: 2,
+    explain: "Correct Answer: c) Administering epinephrine with consent from medical control",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is not an indication that epinephrine is helping the anaphylaxis patient's condition?",
+    a: ["a) Increased blood pressure", "b) Increased heart rate", "c) Increased dyspnea", "d) Both B and C"],
+    correct: 2,
+    explain: "Correct Answer: c) Increased dyspnea",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Upon delivering a patient to the emergency department, you remove your gloves and find that your hands are red and itchy. Which of the following is most likely?",
+    a: ["a) You have come into contact with poison ivy...", "b) You are having an allergic reaction to the latex in the gloves", "c) You have been exposed to an infectious disease...", "d) You are showing early signs of an anaphylactic reaction"],
+    correct: 1,
+    explain: "Correct Answer: b) You are having an allergic reaction to the latex in the gloves",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is the proper method of disposing of a used epinephrine auto-injector?",
+    a: ["a) Take it to the hospital for disposal...", "b) Bend the needle at an angle...", "c) Leave it at the scene...", "d) Place the device in a rigid biohazardous sharps disposal container"],
+    correct: 3,
+    explain: "Correct Answer: d) Place the device in a rigid biohazardous sharps disposal container",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is an action caused by epinephrine in anaphylaxis?",
+    a: ["a) Bronchoconstriction", "b) Vasoconstriction", "c) Decreased heart rate", "d) All of the above"],
+    correct: 1,
+    explain: "Correct Answer: b) Vasoconstriction",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are transporting a 41-year-old female suffering from severe anaphylaxis. ... Which of the following is the highest priority of care for this patient?",
+    a: ["a) Elevate the patient's head", "b) Transport rapidly", "c) Assist ventilations with a bag-valve mask", "d) Search for an epinephrine auto-injector"],
+    correct: 2,
+    explain: "Correct Answer: c) Assist ventilations with a bag-valve mask",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Your patient is a 7-year-old girl who was prescribed an antibiotic for an ear infection. ... Which of the following should you do?",
+    a: ["a) Provide supportive care and monitor the patient's condition during transport to the hospital", "b) Advise the parents that these symptoms are related to the ear infection...", "c) Advise the parents to call the pediatrician...", "d) Immediately administer EpiPen Jr."],
+    correct: 0,
+    explain: "Correct Answer: a) Provide supportive care and monitor the patient's condition during transport to the hospital",
+    cat: "Chapter 23"
+  },
+  {
+    q: "You are called to a farmhouse on a sunny spring afternoon. ... What condition is the patient suffering from?",
+    a: ["a) Allergic reaction from the hornets' stings", "b) Anaphylactic reaction from the \"nox-a-sting\" swabs", "c) Moderate anaphylactic reaction", "d) Minor anaphylactic reaction"],
+    correct: 0,
+    explain: "Correct Answer: a) Allergic reaction from the hornets' stings",
+    cat: "Chapter 23"
+  },
+  {
+    q: "As you prepare to enter a patient's room in a nursing home, you see a sign posted on the door indicating that the patient has a latex allergy. Which of the following is the best way to care for the patient?",
+    a: ["a) Ask the nursing facility staff to find synthetic exam gloves...", "b) Only perform a history on this patient...", "c) Put on latex gloves anyway...", "d) Ask the nursing staff if the patient has an epinephrine auto-injector..."],
+    correct: 0,
+    explain: "Correct Answer: a) Ask the nursing facility staff to find synthetic exam gloves to wear for contact with this patient",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following changes commonly occurs in the cardiovascular system during anaphylaxis?",
+    a: ["a) Low blood pressure due to vasodilation", "b) High blood pressure due to tachycardia", "c) Low blood pressure due to bradycardia", "d) High blood pressure due to vasoconstriction"],
+    correct: 0,
+    explain: "Correct Answer: a) Low blood pressure due to vasodilation",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Your patient is a 45-year-old female who is allergic to sesame seeds... Which of the following is the best course of immediate action?",
+    a: ["a) Contact medical control for orders to administer the patient's epinephrine auto-injector", "b) Contact dispatch to see where the closest ALS unit is", "c) Insert an oropharyngeal airway (OPA)", "d) Transport immediately"],
+    correct: 0,
+    explain: "Correct Answer: a) Contact medical control for orders to administer the patient's epinephrine auto-injector",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Which of the following is the reason why infants rarely experience anaphylactic reactions?",
+    a: ["a) Infants have received natural immunity to allergens from their mothers before birth", "b) Infants have not yet developed antibodies to allergens", "c) Allergens do not affect infants", "d) None of the above"],
+    correct: 1,
+    explain: "Correct Answer: b) Infants have not yet developed antibodies to allergens",
+    cat: "Chapter 23"
+  },
+  {
+    q: "Most epinephrine auto-injectors contain how many doses of epinephrine?",
+    a: ["a) Two", "b) One", "c) Three", "d) None of the above"],
+    correct: 1,
+    explain: "Correct Answer: b) One",
+    cat: "Chapter 23"
+  },
+
+  // Chapter 24 - Infectious Diseases
+  {
+    q: "You have been called to the scene of a single vehicle crash. The victim ... has HIV ... which of the following actions should you take?",
+    a: ["a) Provide care without using precautions because his viral load is suppressed", "b) Take Standard Precautions while providing care for the patient", "c) Avoid direct contact with the patient but provide him with dressings he can apply himself", "d) Call medical direction and ask how you should proceed"],
+    correct: 1,
+    explain: "Correct Answer: b) Take Standard Precautions while providing care for the patient",
+    cat: "Chapter 24"
+  },
+  {
+    q: "Which of the following patients is at the lowest risk of developing sepsis?",
+    a: ["a) An elderly patient who is recovering from abdominal surgery", "b) A patient with a compromised immune system who has a permanent gastrostomy tube", "c) A pediatric patient who has developed pneumonia in both lungs", "d) A college-aged patient who breaks his arm in a skateboard crash"],
+    correct: 3,
+    explain: "Correct Answer: d) A college-aged patient who breaks his arm in a skateboard crash",
+    cat: "Chapter 24"
+  },
+  {
+    q: "Which of the following is the most important thing you can do when treating patients during a public crisis related to a newly recognized infectious disease?",
+    a: ["a) Gather data about patient signs and symptoms and report them to the local health department", "b) Tell patients not to worry because new reports exaggerate the severity of these diseases", "c) Share information with patients about the prevalence of the disease", "d) Follow the recommendations of the CDC and your local health department"],
+    correct: 3,
+    explain: "Correct Answer: d) Follow the recommendations of the CDC and your local health department",
+    cat: "Chapter 24"
+  },
+  {
+    q: "According to the systemic inflammatory response syndrome (SIRS) system, which of the following criteria would not contribute to a patient's likelihood of developing sepsis?",
+    a: ["a) Temperature of 95.3°F", "b) Systolic blood pressure of 76", "c) Respiratory rate of 32", "d) Heart rate of 87"],
+    correct: 3,
+    explain: "Correct Answer: d) Heart rate of 87",
+    cat: "Chapter 24"
+  },
+  {
+    q: "Which of the following statements about bacteria is false?",
+    a: ["a) Over time, bacteria have developed resistance to some antibiotics", "b) Sepsis is a serious and sometimes deadly complication of bacterial infection", "c) Some bacteria inside the body are good and necessary to survival", "d) Bacteria need to be inside the body in order to reproduce"],
+    correct: 3,
+    explain: "Correct Answer: d) Bacteria need to be inside the body in order to reproduce",
+    cat: "Chapter 24"
+  },
+  {
+    q: "What role do health care workers play in handling public crises related to newly recognized infectious diseases?",
+    a: ["a) They work closely with local health departments to determine the microbes responsible...", "b) They report information about the outbreaks to the public...", "c) They disseminate information about diseases...", "d) They implement the steps outlined by the CDC and other agencies to reduce the number of people who become infected"],
+    correct: 3,
+    explain: "Correct Answer: d) They implement the steps outlined by the CDC and other agencies to reduce the number of people who become infected",
+    cat: "Chapter 24"
+  },
+  {
+    q: "Which of the following best describes a difference between the systemic inflammatory response syndrome (SIRS) and the quick sepsis-related organ failure assessment (qSOFA)?",
+    a: ["a) SIRS is used to predict the likelihood a patient will develop sepsis, whereas qSOFA is used to predict the likelihood of patient death from sepsis", "b) SIRS is more commonly used in the intensive care setting...", "c) SIRS relies on the measurement of exhaled carbon dioxide...", "d) SIRS creates a score based on the number of abnormal findings..."],
+    correct: 0,
+    explain: "Correct Answer: a) SIRS is used to predict the likelihood a patient will develop sepsis, whereas qSOFA is used to predict the likelihood of patient death from sepsis",
+    cat: "Chapter 24"
+  },
+  {
+    q: "What is the most important thing you can do for a stable septic patient?",
+    a: ["a) Assess the patient using capnography", "b) Attempt to lower the patient's temperature", "c) Open and maintain the patient's airway", "d) Notify the emergency department that the patient is septic"],
+    correct: 3,
+    explain: "Correct Answer: d) Notify the emergency department that the patient is septic",
+    cat: "Chapter 24"
+  },
+  {
+    q: "Which of the following statements about sepsis is true?",
+    a: ["a) Infections of the lungs commonly lead to sepsis, but sepsis is not typically associated with cases of pneumonia", "b) The exact pathway for the development of sepsis remains unclear, and most cases do not have a clearly defined source", "c) Treatment of sepsis has changed and improved over time...", "d) Patients who use urinary catheters are at a decreased risk of sepsis..."],
+    correct: 1,
+    explain: "Correct Answer: b) The exact pathway for the development of sepsis remains unclear, and most cases do not have a clearly defined source",
+    cat: "Chapter 24"
+  },
+  {
+    q: "Which of the following preventive measures is useful against all communicable diseases?",
+    a: ["a) Covering sneezes and coughs", "b) Standard Precautions", "c) Hand washing", "d) Vaccination"],
+    correct: 1,
+    explain: "Correct Answer: b) Standard Precautions",
+    cat: "Chapter 24"
+  },
+
+  // Chapter 25 - Toxicology
+  {
+    q: "Immediate effects of alcohol are due to effects on which body system?",
+    a: ["a) Central nervous system", "b) Gastrointestinal system", "c) Cardiovascular system", "d) Respiratory system"],
+    correct: 0,
+    explain: "Correct Answer: a) Central nervous system",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following effects may occur due to chronic abuse of alcohol?",
+    a: ["a) Potential for gastrointestinal bleeding", "b) Abnormal blood sugar levels", "c) Poor nutrition", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is a substance that will neutralize a poison or its effects?",
+    a: ["a) Vaccine", "b) Antidote", "c) Deactivator", "d) Antibody"],
+    correct: 1,
+    explain: "Correct Answer: b) Antidote",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following substances may be ordered by medical control to dilute a poison?",
+    a: ["a) Water with syrup of ipecac", "b) Milk or water", "c) Milk of magnesia or magnesium citrate", "d) Milk or milk of magnesia"],
+    correct: 1,
+    explain: "Correct Answer: b) Milk or water",
+    cat: "Chapter 25"
+  },
+  {
+    q: "A patient who has abused \"uppers\" will display which of the following signs and symptoms?",
+    a: ["a) Slurred speech, constricted pupils, and frequent urination", "b) Dilated pupils, excessive salivation, and food cravings", "c) Constricted pupils, hypotension, and blurred vision", "d) Excessive talkativeness, dilated pupils, and dry mouth"],
+    correct: 3,
+    explain: "Correct Answer: d) Excessive talkativeness, dilated pupils, and dry mouth",
+    cat: "Chapter 25"
+  },
+  {
+    q: "OxyContin is an example of which of the following types of drugs?",
+    a: ["a) Appetite suppressant", "b) Barbiturate", "c) Antidepressant", "d) Narcotic"],
+    correct: 3,
+    explain: "Correct Answer: d) Narcotic",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is the best initial intervention for a patient who has inhaled a poison?",
+    a: ["a) Provide plenty of fresh air and monitor pulse oximetry readings", "b) Transport in a position of comfort and provide oxygen for patients with a decreased level of consciousness", "c) Provide a patent airway, ventilation, and high-concentration oxygen", "d) Perform abdominal thrusts to clear the airway, followed by high-concentration oxygen"],
+    correct: 2,
+    explain: "Correct Answer: c) Provide a patent airway, ventilation, and high-concentration oxygen",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 48-year-old male who has been exposed to a toxic powder that can be absorbed through the skin. Which of the following measures should be taken by the EMT?",
+    a: ["a) Brush off the powder and flush the patient's skin with copious amounts of water", "b) Brush off the powder and flush the patient's skin with a solution of baking soda and water", "c) Wipe the powder away with a damp cloth", "d) Flush the patient's skin with copious amounts of water"],
+    correct: 0,
+    explain: "Correct Answer: a) Brush off the powder and flush the patient's skin with copious amounts of water",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are called to the scene of a local night club for a 21-year-old female patient who is bradycardic and in respiratory arrest. ... What situation do you suspect?",
+    a: ["a) Cocaine overdose", "b) GHB overdose", "c) Anaphylactic reaction to the alcoholic drink", "d) Alcohol overdose"],
+    correct: 1,
+    explain: "Correct Answer: b) GHB overdose",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Cleaning fluid, glue, and model cement are common examples of which of the following?",
+    a: ["a) Narcotics", "b) Volatile chemicals", "c) Hallucinogens", "d) Roofies"],
+    correct: 1,
+    explain: "Correct Answer: b) Volatile chemicals",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is the most important means of managing a patient who has inhaled a poison, after the airway has been established?",
+    a: ["a) Hyperventilation", "b) Administering a specific antidote", "c) Monitoring pulse oximetry", "d) High concentrations of oxygen"],
+    correct: 3,
+    explain: "Correct Answer: d) High concentrations of oxygen",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are treating a 61-year-old who is a chronic alcohol abuser. ... Which of the following is the most likely cause of this situation?",
+    a: ["a) The patient is suffering from acute alcohol poisoning", "b) The patient could not find an alcoholic beverage and drank antifreeze instead", "c) The patient drank mouthwash instead of beverage alcohol", "d) The patient is suffering from alcohol withdrawal"],
+    correct: 3,
+    explain: "Correct Answer: d) The patient is suffering from alcohol withdrawal",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following statements regarding syrup of ipecac is not true?",
+    a: ["a) It removes only about one-third of stomach contents", "b) It causes vomiting in all patients with a single dose", "c) It can cause a patient to aspirate stomach contents into the lungs", "d) It has an immediate action"],
+    correct: 3,
+    explain: "Correct Answer: d) It has an immediate action",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Gamma hydroxybutyrate (GHB) is an example of which of the following types of drugs?",
+    a: ["a) Cannabis", "b) Stimulant", "c) Depressant", "d) Volatile spirit"],
+    correct: 2,
+    explain: "Correct Answer: c) Depressant",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 3-year-old male with a stoma in his neck to assist his breathing. The patient has swallowed a household cleaner. ... Which of the following is the correct way of carrying out this order?",
+    a: ["a) Have the patient drink a glass of milk while you plug the stoma...", "b) Have the patient drink one glass of milk", "c) Administer one glass of milk through the stoma", "d) Refuse the order and explain why"],
+    correct: 1,
+    explain: "Correct Answer: b) Have the patient drink one glass of milk",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You respond to the county jail for a 48-year-old inmate ... What condition do you suspect?",
+    a: ["a) Delirium tremens", "b) Alcohol poisoning", "c) Acute episode of paranoid schizophrenia", "d) LSD abuse"],
+    correct: 0,
+    explain: "Correct Answer: a) Delirium tremens",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are called to the residence of a 78-year-old widow ... Do you agree or disagree?",
+    a: ["a) Agree. The vital signs agree with this hypothesis", "b) Disagree. The patient's vital signs are related to her broken arm", "c) Disagree. The vital signs indicate that she has not taken her medication in several days", "d) Agree. It is obvious that the broken arm is causing the decreased heart rate"],
+    correct: 0,
+    explain: "Correct Answer: a) Agree. The vital signs agree with this hypothesis",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Why would an EMT give activated charcoal to a patient who overdosed on a medication?",
+    a: ["a) Activated charcoal binds to the medication, preventing absorption by the body", "b) Activated charcoal prevents the patient from vomiting", "c) Activated charcoal coats the intestinal tract, preventing absorption by the body", "d) Activated charcoal is the antidote to medication poisoning"],
+    correct: 0,
+    explain: "Correct Answer: a) Activated charcoal binds to the medication, preventing absorption by the body",
+    cat: "Chapter 25"
+  },
+  {
+    q: "When a poison attaches to the chemical structure of activated charcoal, which of the following best describes this mechanism of action?",
+    a: ["a) Absorption", "b) Adsorption", "c) Incorporation", "d) Inactivation"],
+    correct: 1,
+    explain: "Correct Answer: b) Adsorption",
+    cat: "Chapter 25"
+  },
+  {
+    q: "By definition, a systemic poison causes harm to which of the following?",
+    a: ["a) Entire body", "b) Localized areas of tissue", "c) Specific organ", "d) Stomach and intestines"],
+    correct: 0,
+    explain: "Correct Answer: a) Entire body",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a conscious 16-year-old female who has ingested an unknown number of sleeping pills. Which of the following questions is least pertinent to the care of this patient?",
+    a: ["a) How much do you weigh?", "b) Has anyone tried to treat you with anything?", "c) Over what period of time did you take the pills?", "d) Who do these sleeping pills belong to?"],
+    correct: 3,
+    explain: "Correct Answer: d) Who do these sleeping pills belong to?",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Why should an EMT utilize a local poison control center in managing a poisoning patient?",
+    a: ["a) They can assist in finding out important information about the poison", "b) It prevents the EMT from having to do training on poisons", "c) It places any legal liability on the poison control center", "d) They can activate a specialty team to come and treat the patient"],
+    correct: 0,
+    explain: "Correct Answer: a) They can assist in finding out important information about the poison",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which patient would most likely benefit from the administration of activated charcoal?",
+    a: ["a) 48-year-old man who attempted suicide by drinking Drano", "b) Unresponsive 28-year-old female who overdosed on sleeping pills", "c) Alert 16-year-old female who overdosed on Tylenol", "d) 28-year-old male who is suffering from food poisoning after eating eggs contaminated with salmonella"],
+    correct: 2,
+    explain: "Correct Answer: c) Alert 16-year-old female who overdosed on Tylenol",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is a common sign and symptom in poisonings of all types?",
+    a: ["a) Nausea and vomiting", "b) Headache and diaphoresis", "c) Dizziness and palpitations", "d) Pain and diaphoresis"],
+    correct: 0,
+    explain: "Correct Answer: a) Nausea and vomiting",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is an 18-year-old male who fell into a neighbor's swimming pool ... Which of the following would account for the patient's behavior and current condition?",
+    a: ["a) GHB", "b) Carbon monoxide poisoning", "c) Volatile chemicals", "d) Methamphetamine"],
+    correct: 2,
+    explain: "Correct Answer: c) Volatile chemicals",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is not a way in which poisons can access the body?",
+    a: ["a) Radiation", "b) Injection", "c) Absorption", "d) Inhalation"],
+    correct: 0,
+    explain: "Correct Answer: a) Radiation",
+    cat: "Chapter 25"
+  },
+  {
+    q: "When a chemical substance is taken for reasons other than therapeutic use, this action is called:",
+    a: ["a) tolerance", "b) addiction", "c) substance abuse", "d) psychological dependence"],
+    correct: 2,
+    explain: "Correct Answer: c) substance abuse",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is an injury that commonly occurs in alcoholic patients with even minor head injuries?",
+    a: ["a) Intracerebral hematoma", "b) Subdural hematoma", "c) Skull fracture", "d) Concussion"],
+    correct: 1,
+    explain: "Correct Answer: b) Subdural hematoma",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is not part of the treatment for a 15-year-old female who has swallowed drain cleaner?",
+    a: ["a) Administer milk or water", "b) Administer activated charcoal", "c) Call medical control", "d) Maintain the airway"],
+    correct: 1,
+    explain: "Correct Answer: b) Administer activated charcoal",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient has come in contact with a strong acid substance. Using an alkaline solution to treat the patient may result in which of the following?",
+    a: ["a) Further damage to the patient's tissues", "b) Neutralization of the acid substance", "c) Production of heat when the acid and alkali interact", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is a sign or symptom of withdrawal from alcohol?",
+    a: ["a) Hallucinations", "b) Sweating", "c) Seizures", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is true concerning a patient's reaction to toxic gases from smoke inhalation?",
+    a: ["a) Signs and symptoms may be delayed", "b) Inhalation of the toxic gases will cause cherry-red skin or lips", "c) If the patient is feeling fine, they do not need to see a physician", "d) The patient will present with vague, flulike symptoms"],
+    correct: 0,
+    explain: "Correct Answer: a) Signs and symptoms may be delayed",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Regarding activated charcoal, which of the following is not true?",
+    a: ["a) It is an antidote to many poisons", "b) Ingestion of strong acids or alkalis is a contraindication to its use", "c) It does not work on all poisons", "d) It can reduce the amount of poison absorbed by the gastrointestinal system"],
+    correct: 0,
+    explain: "Correct Answer: a) It is an antidote to many poisons",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are called to a farm for a possible insecticide poisoning of one of the workers. Your first action is to:",
+    a: ["a) call for an ALS unit", "b) decontaminate the patient", "c) bag the patient before he dies", "d) call for specialized hazardous materials units"],
+    correct: 3,
+    explain: "Correct Answer: d) call for specialized hazardous materials units",
+    cat: "Chapter 25"
+  },
+  {
+    q: "It is a chilly fall morning and you are called to an RV campground for three patients who are complaining of headache, dizziness, and nausea. ... You suspect:",
+    a: ["a) carbon monoxide poisoning", "b) bee sting", "c) food poisoning", "d) snake bite"],
+    correct: 0,
+    explain: "Correct Answer: a) carbon monoxide poisoning",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You respond to assist law enforcement with a 35-year-old male patient who, according to them, is \"high as a kite.\" ... What condition do you suspect?",
+    a: ["a) GHB overdose", "b) Alcohol overdose", "c) Marijuana overdose", "d) Cocaine overdose"],
+    correct: 3,
+    explain: "Correct Answer: d) Cocaine overdose",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Carbon monoxide poisoning should be suspected when a patient has been in an enclosed area and has which of the following signs and/or symptoms?",
+    a: ["a) Flu-like symptoms", "b) Breathing difficulty and altered mental status", "c) Headache, dizziness, and nausea", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You have just arrived on the scene of an agricultural business and see three men coming out of a building... What should you do next?",
+    a: ["a) Evaluate the three men and administer high-concentration oxygen...", "b) Get the assistance of the men who made it out...", "c) Call for properly trained assistance and stay a safe distance away from the scene", "d) Cover your nose and mouth with a wet towel and check on the status of the two workers..."],
+    correct: 2,
+    explain: "Correct Answer: c) Call for properly trained assistance and stay a safe distance away from the scene",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 17-year-old male who is spitting and coughing after swallowing some gasoline while siphoning from a gas tank. Which of the following should you do first?",
+    a: ["a) Administer syrup of ipecac", "b) Contact medical control", "c) Have the patient drink a glass of milk", "d) Insert a Combitube or another blind insertion device..."],
+    correct: 1,
+    explain: "Correct Answer: b) Contact medical control",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Most cases of accidental poisoning involve which of the following?",
+    a: ["a) Infants", "b) Adults", "c) Adolescents", "d) Young children"],
+    correct: 3,
+    explain: "Correct Answer: d) Young children",
+    cat: "Chapter 25"
+  },
+  {
+    q: "The opioid triad includes all of the following except:",
+    a: ["a) hypertension", "b) coma", "c) respiratory depression", "d) pinpoint pupils"],
+    correct: 0,
+    explain: "Correct Answer: a) hypertension",
+    cat: "Chapter 25"
+  },
+  {
+    q: "The term poison is best described as any substance that can do which of the following?",
+    a: ["a) Harm the body", "b) Increase cellular activity", "c) Deactivate nerve transmission", "d) Depress the body's respirations"],
+    correct: 0,
+    explain: "Correct Answer: a) Harm the body",
+    cat: "Chapter 25"
+  },
+  {
+    q: "When a substance enters the body through unbroken skin, it has entered the body by which of the following routes?",
+    a: ["a) Absorption", "b) Ingestion", "c) Consumption", "d) Injection"],
+    correct: 0,
+    explain: "Correct Answer: a) Absorption",
+    cat: "Chapter 25"
+  },
+  {
+    q: "How does carbon monoxide cause toxic effects?",
+    a: ["a) Prevents red blood cells from releasing carbon dioxide", "b) Prevents the blood from clotting", "c) Prevents red blood cells from carrying oxygen", "d) Causes red blood cells to clump together"],
+    correct: 2,
+    explain: "Correct Answer: c) Prevents red blood cells from carrying oxygen",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Volatile chemicals are agents that are able to change easily from a ________ into a ________.",
+    a: ["a) solid; vapor", "b) solid; liquid", "c) gas; liquid", "d) liquid; gas"],
+    correct: 3,
+    explain: "Correct Answer: d) liquid; gas",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is least often seen in carbon monoxide poisoning?",
+    a: ["a) Altered mental status", "b) Headache", "c) Nausea", "d) Cherry red lips"],
+    correct: 3,
+    explain: "Correct Answer: d) Cherry red lips",
+    cat: "Chapter 25"
+  },
+  {
+    q: "What is the most important treatment for a patient who has inhaled a poison?",
+    a: ["a) Administer epinephrine via auto-injector", "b) Administer the correct antidote", "c) Administer activated charcoal", "d) Administer high-concentration oxygen"],
+    correct: 3,
+    explain: "Correct Answer: d) Administer high-concentration oxygen",
+    cat: "Chapter 25"
+  },
+  {
+    q: "The drug ecstasy is classified as what type of drug?",
+    a: ["a) Barbiturate", "b) Hallucinogen", "c) Depressant", "d) Tranquilizer"],
+    correct: 1,
+    explain: "Correct Answer: b) Hallucinogen",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 3-year-old female who has taken an unknown quantity of aspirin. She is conscious and alert. Which of the following orders is likely to be given by medical control?",
+    a: ["a) Induce vomiting by placing your finger in the child's throat", "b) Administer one to two glasses of milk", "c) Administer activated charcoal", "d) Administer syrup of ipecac"],
+    correct: 2,
+    explain: "Correct Answer: c) Administer activated charcoal",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is a trade name for activated charcoal?",
+    a: ["a) Mesquite", "b) Actidose", "c) Charcoal", "d) Actifed"],
+    correct: 1,
+    explain: "Correct Answer: b) Actidose",
+    cat: "Chapter 25"
+  },
+  {
+    q: "A patient has a dry powder poison covering both upper extremities and chest. You should:",
+    a: ["a) cover the patient's arms with a burn sheet...", "b) flush the area with large amounts of water and then brush the remaining poison off", "c) immediately wash the powder off to prevent further exposure", "d) brush the powder off and irrigate the contaminated area with large amounts of water"],
+    correct: 3,
+    explain: "Correct Answer: d) brush the powder off and irrigate the contaminated area with large amounts of water",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are called to the scene of a 21-year-old female patient who is unresponsive. ... what is the most important question the EMT can ask regarding the medication?",
+    a: ["a) What medication did she take?", "b) Were the medications new?", "c) Why is she on that particular depression medication?", "d) How many pills did she take?"],
+    correct: 0,
+    explain: "Correct Answer: a) What medication did she take?",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is the cause of the black residue found in a patient's mouth and nose following smoke inhalation?",
+    a: ["a) Carbon", "b) Tar", "c) Carbon monoxide", "d) Cyanide"],
+    correct: 0,
+    explain: "Correct Answer: a) Carbon",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 50-year-old female with a history of alcoholism. She is found unresponsive in bed by her son. Which of the following possibilities should you keep in mind during your assessment?",
+    a: ["a) Head injury", "b) Low blood sugar", "c) Heart attack", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following groups is the most susceptible to the effects of a poison?",
+    a: ["a) Adults", "b) Pre-teens", "c) Teenager", "d) Elderly"],
+    correct: 3,
+    explain: "Correct Answer: d) Elderly",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are called to the scene of a 14-year-old female patient who is unresponsive. ... Your first action is to:",
+    a: ["a) administer an oropharyngeal airway (OPA)", "b) administer oxygen by bag-valve mask (BVM)", "c) administer oxygen by nonrebreather mask (NRB)", "d) suction the patient's airway"],
+    correct: 3,
+    explain: "Correct Answer: d) suction the patient's airway",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Barbiturates may be referred to as which of the following?",
+    a: ["a) Meth", "b) Downers", "c) Acid", "d) Uppers"],
+    correct: 1,
+    explain: "Correct Answer: b) Downers",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following conditions can mimic the signs of alcohol intoxication?",
+    a: ["a) Head injuries", "b) Epilepsy", "c) Diabetes", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following most affects the extent of damage a poison does to the body?",
+    a: ["a) Patient's genetics, height, and medications taken", "b) Patient's nutritional status, genetics, and strength of the immune system", "c) Patient's age, weight, and general health", "d) Patient's race, age, and medications taken"],
+    correct: 2,
+    explain: "Correct Answer: c) Patient's age, weight, and general health",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 7-year-old male who ate an unknown type of mushroom on a dare by his friends. You should ask all of the following questions except:",
+    a: ["a) When did you eat the mushroom?", "b) Are there any more of the mushrooms?", "c) Why did you eat the mushroom?", "d) How much did you eat?"],
+    correct: 2,
+    explain: "Correct Answer: c) Why did you eat the mushroom?",
+    cat: "Chapter 25"
+  },
+  {
+    q: "You are called to the scene of a 17-year-old female patient who is unresponsive. ... After securing the airway and providing oxygen by bag-valve mask, what is your next action?",
+    a: ["a) Question the mother about the patient's suicidal tendencies", "b) Perform a secondary assessment of the patient", "c) Ask the mother the name of her pain medication", "d) Perform a focused assessment"],
+    correct: 1,
+    explain: "Correct Answer: b) Perform a secondary assessment of the patient",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following is one of the most common inhaled poisons associated with fire suppression?",
+    a: ["a) Hydrogen sulfide", "b) Carbon monoxide", "c) Carbon dioxide", "d) Chlorine gas"],
+    correct: 1,
+    explain: "Correct Answer: b) Carbon monoxide",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Signs and symptoms of alcohol abuse include all of the following except:",
+    a: ["a) confusion", "b) nausea and vomiting", "c) an acetone or ketone odor to the breath", "d) swaying and unsteadiness of movement"],
+    correct: 2,
+    explain: "Correct Answer: c) an acetone or ketone odor to the breath",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following describes any substance produced by a living organism that is poisonous to human beings?",
+    a: ["a) Acid", "b) Toxin", "c) Antigen", "d) Antibody"],
+    correct: 1,
+    explain: "Correct Answer: b) Toxin",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which patient would most likely benefit from the administration of activated charcoal?",
+    a: ["a) 45-year-old patient suffering from insecticide poisoning", "b) 8-year-boy who has a headache from carbon monoxide poisoning", "c) 18-year-old patient who is passed out from drinking too much beer", "d) 14-year-old female who overdoses on her grandfather's cardiac medication"],
+    correct: 3,
+    explain: "Correct Answer: d) 14-year-old female who overdoses on her grandfather's cardiac medication",
+    cat: "Chapter 25"
+  },
+  {
+    q: "What clinical finding is most suggestive of an inhaled poison?",
+    a: ["a) Altered mental status", "b) Swollen tongue", "c) Tachypnea", "d) Black-colored sputum"],
+    correct: 3,
+    explain: "Correct Answer: d) Black-colored sputum",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a conscious 4-year-old female who has ingested a medication prescribed for her grandfather. ... which of the following information is not necessary to provide to medical control?",
+    a: ["a) Grandfather's name and the name of the physician who prescribed the medication", "b) Any home remedies attempted by the patient's family", "c) Patient's vital signs and the time the medication was taken", "d) Patient's weight and the amount of medication taken"],
+    correct: 0,
+    explain: "Correct Answer: a) Grandfather's name and the name of the physician who prescribed the medication",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 23-year-old male who is unresponsive in the restroom of a bar. ... Which of the following substances is most likely responsible for the patient's condition?",
+    a: ["a) LSD", "b) Heroin", "c) PCP", "d) Ecstasy"],
+    correct: 1,
+    explain: "Correct Answer: b) Heroin",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Carbon monoxide poisoning occurs by which of the following routes?",
+    a: ["a) Absorption", "b) Aspiration", "c) Inhalation", "d) Radiation"],
+    correct: 2,
+    explain: "Correct Answer: c) Inhalation",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Your patient is a 38-year-old male who has taken an overdose of several different medications and has consumed some household cleaning agents as well. ... Which of the following actions should you do?",
+    a: ["a) Refuse the order and explain why", "b) Ask medical control if you can substitute water for the milk...", "c) Assist the patient in drinking as much of the two to three glasses of milk as he can", "d) Assist the patient in drinking only one glass of milk..."],
+    correct: 0,
+    explain: "Correct Answer: a) Refuse the order and explain why",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Which of the following types of drugs may induce sleep or stupor?",
+    a: ["a) Hallucinogens", "b) Both Narcotics and Tranquilizers", "c) Tranquilizers", "d) Narcotics"],
+    correct: 1,
+    explain: "Correct Answer: b) Both Narcotics and Tranquilizers",
+    cat: "Chapter 25"
+  },
+  {
+    q: "Smoke inhalation can result in all of the following except:",
+    a: ["a) respiratory arrest", "b) lung contusion", "c) carbon monoxide poisoning", "d) cardiac arrest"],
+    correct: 1,
+    explain: "Correct Answer: b) lung contusion",
+    cat: "Chapter 25"
+  },
+
+  // Chapter 26 - Abdominal Emergencies
+  {
+    q: "You are called to a nursing home for an 85-year-old patient complaining of abdominal pain. ... In what position should you transport the patient?",
+    a: ["a) Trendelenburg", "b) Left lateral recumbent", "c) Supine", "d) Supine with knees bent"],
+    correct: 1,
+    explain: "Correct Answer: b) Left lateral recumbent",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is the main focus of the EMT's assessment and history taking of the patient with abdominal pain?",
+    a: ["a) Determining the possible need for immediate surgery", "b) Determining if the patient meets criteria to refuse treatment and transport", "c) Determining the presence of shock", "d) Determining the cause of the pain"],
+    correct: 2,
+    explain: "Correct Answer: c) Determining the presence of shock",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is true concerning parietal pain?",
+    a: ["a) It is generally localized to a particular area", "b) It is often described as \"crampy\" or \"colicky.\"", "c) It arises from solid organs", "d) It is usually intermittent in nature"],
+    correct: 0,
+    explain: "Correct Answer: a) It is generally localized to a particular area",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Your patient is a 60-year-old male who is complaining of severe epigastric abdominal pain and difficulty breathing. ... Which of the following measures is not part of your initial treatment of this patient?",
+    a: ["a) Applying the defibrillator pads to his chest", "b) Giving 15 lpm of oxygen by nonrebreather mask", "c) Determining whether you should assist the patient in taking nitroglycerin", "d) Placing the patient in a position of comfort"],
+    correct: 0,
+    explain: "Correct Answer: a) Applying the defibrillator pads to his chest",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following questions may help the EMT assess a patient with abdominal pain?",
+    a: ["a) Do you have any allergies to foods or medicines?", "b) What medications are you taking?", "c) Do you have any medical problems, such as diabetes or heart problems?", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is a concern when caring for the patient with abdominal pain?",
+    a: ["a) Airway management", "b) Patient comfort", "c) Shock", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are called to the scene of a patient with abdominal pain. ... You suspect:",
+    a: ["a) cholecystitis", "b) renal colic", "c) mid-cycle pain", "d) myocardial infarction"],
+    correct: 1,
+    explain: "Correct Answer: b) renal colic",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You respond to a 75-year-old female who is complaining of epigastric pain that feels like heartburn and radiates to the right shoulder. ... you should:",
+    a: ["a) cancel the ALS unit: this is just gallstones and BLS can transport", "b) transport the patient in the supine position for shock", "c) contact medical control regarding the administration of the patient's nitroglycerin", "d) apply the AED and prepare for imminent cardiac arrest from a myocardial infarction"],
+    correct: 2,
+    explain: "Correct Answer: c) contact medical control regarding the administration of the patient's nitroglycerin",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which patient is experiencing visceral pain?",
+    a: ["a) 19-year-old female complaining of severe cramps in the lower abdominal quadrants", "b) 24-year-old male complaining of severe left flank pain", "c) 28-year-old male with sharp pain in the right lower quadrant", "d) 45-year-old female complaining of abdominal pain \"all over\""],
+    correct: 3,
+    explain: "Correct Answer: d) 45-year-old female complaining of abdominal pain \"all over\"",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You respond to a 65-year-old patient complaining of abdominal pain. Your physical exam reveals a nonpulsating mass in the lower left quadrant. You suspect:",
+    a: ["a) splenic rupture", "b) appendicitis", "c) aortic abdominal aneurysm", "d) hernia"],
+    correct: 3,
+    explain: "Correct Answer: d) hernia",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is not true concerning abdominal pain in geriatric patients?",
+    a: ["a) The causes of abdominal pain in geriatric patients are rarely serious", "b) Medications may mask signs of shock associated with an abdominal complaint", "c) Older adults have a decreased ability to perceive pain", "d) The older person may not be able to give a specific description of the pain"],
+    correct: 0,
+    explain: "Correct Answer: a) The causes of abdominal pain in geriatric patients are rarely serious",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Your patient is a 35-year-old female with abdominal pain. Which of the following findings cannot be attributed to the patient experiencing pain?",
+    a: ["a) Shallow respirations", "b) Increased heart rate", "c) Decreased level of consciousness", "d) Increased respiratory rate"],
+    correct: 2,
+    explain: "Correct Answer: c) Decreased level of consciousness",
+    cat: "Chapter 26"
+  },
+  {
+    q: "In what position should the patient complaining of severe abdominal pain be placed if there are no signs or symptoms of shock?",
+    a: ["a) Semi-Fowler with knees bent", "b) Left lateral recumbent", "c) One of comfort", "d) Supine with feet elevated"],
+    correct: 2,
+    explain: "Correct Answer: c) One of comfort",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following organs is located in the retroperitoneal space?",
+    a: ["a) Stomach", "b) Uterus", "c) Liver", "d) Kidneys"],
+    correct: 3,
+    explain: "Correct Answer: d) Kidneys",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You respond, along with fire department Emergency Medical Responders, to a 48-year-old female having a syncope episode in the bathroom. ... She has:",
+    a: ["a) GI bleeding", "b) abdominal aortic aneurysm", "c) peritonitis", "d) hernia"],
+    correct: 0,
+    explain: "Correct Answer: a) GI bleeding",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are called to a residential neighborhood at 12:30 A.M. ... What condition do you suspect that your patient is experiencing?",
+    a: ["a) Cholecystitis", "b) Peptic ulcer", "c) Intestinal obstruction", "d) Appendicitis"],
+    correct: 0,
+    explain: "Correct Answer: a) Cholecystitis",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are called to a 25-year-old male complaining of right lower quadrant (RLQ) pain. ... As an EMT, you feel this patient might have:",
+    a: ["a) cholecystitis", "b) appendicitis", "c) pancreatitis", "d) peritonitis"],
+    correct: 1,
+    explain: "Correct Answer: b) appendicitis",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Your patient is a 34-year-old male complaining of pain \"in his right side.\" ... Which approach is most appropriate?",
+    a: ["a) Tell the patient that you cannot transport him unless he calms down and lies still", "b) Insert an oropharyngeal airway", "c) Reassure him that you will make him as comfortable as possible and get him to the hospital for additional care", "d) Try to determine the cause of his pain"],
+    correct: 2,
+    explain: "Correct Answer: c) Reassure him that you will make him as comfortable as possible and get him to the hospital for additional care",
+    cat: "Chapter 26"
+  },
+  {
+    q: "When treating a patient with acute abdominal pain, you should do which of the following?",
+    a: ["a) Administer sips of water if patient complains of thirst", "b) Have the patient lie still and assume a position of comfort", "c) Have him drink milk to coat the stomach and reduce the pain", "d) Have him take antacids in an attempt to decrease the pain"],
+    correct: 1,
+    explain: "Correct Answer: b) Have the patient lie still and assume a position of comfort",
+    cat: "Chapter 26"
+  },
+  {
+    q: "With the exception of the ________, most abdominal organs are not able to sense tearing sensations.",
+    a: ["a) aorta", "b) colon", "c) liver", "d) ovaries"],
+    correct: 0,
+    explain: "Correct Answer: a) aorta",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is a characteristic of referred pain?",
+    a: ["a) It is felt in a location other than the organ causing it", "b) It is caused by psychological stress", "c) It is usually described as \"crampy\" or \"colicky.\"", "d) It is only felt in hollow organs"],
+    correct: 0,
+    explain: "Correct Answer: a) It is felt in a location other than the organ causing it",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following structures is (are) not located in the abdominal cavity?",
+    a: ["a) Liver", "b) Spleen", "c) Stomach", "d) Kidneys"],
+    correct: 3,
+    explain: "Correct Answer: d) Kidneys",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Your patient is a 17-year-old female with a history of asthma. She is complaining of pain in her lower abdomen. ... Which of the following is the most appropriate next step?",
+    a: ["a) Have the patient breathe into a paper bag to rebreathe some of her carbon dioxide", "b) Assist the patient in the administration of her metered-dose inhaler", "c) Provide high-concentration oxygen", "d) Insert a nasopharyngeal airway in the patient's nose"],
+    correct: 2,
+    explain: "Correct Answer: c) Provide high-concentration oxygen",
+    cat: "Chapter 26"
+  },
+  {
+    q: "When the gallbladder is diseased, the pain is not only felt in the right upper quadrant (RUQ) but also in the right shoulder. This is known as:",
+    a: ["a) referred pain", "b) visceral pain", "c) tearing pain", "d) parietal pain"],
+    correct: 0,
+    explain: "Correct Answer: a) referred pain",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are called to a nursing home for an 85-year-old patient complaining of abdominal pain. ... Why should the EMT use an oxygen mask with caution?",
+    a: ["a) The patient cannot clear any additional vomit", "b) The patient may become unresponsive", "c) The oxygen will cause the patient to start vomiting again", "d) The patient may hyperventilate"],
+    correct: 0,
+    explain: "Correct Answer: a) The patient cannot clear any additional vomit",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You respond to the scene of a 50-year-old male complaining of severe abdominal pain. ... You suspect:",
+    a: ["a) gastroesophageal reflux disease (GERD)", "b) cholecystitis", "c) pancreatitis", "d) myocardial infarction"],
+    correct: 2,
+    explain: "Correct Answer: c) pancreatitis",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following questions is inappropriate when taking the history of a female patient with abdominal pain?",
+    a: ["a) What is your sexual orientation?", "b) If you are menstruating, is the flow normal?", "c) Have you had sexual intercourse since your last menstrual period?", "d) Are you having vaginal bleeding or discharge now?"],
+    correct: 0,
+    explain: "Correct Answer: a) What is your sexual orientation?",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Most organs of the abdomen are enclosed within the:",
+    a: ["a) peritoneum", "b) extraperitoneal space", "c) retroperitoneal space", "d) midline"],
+    correct: 0,
+    explain: "Correct Answer: a) peritoneum",
+    cat: "Chapter 26"
+  },
+  {
+    q: "The patient complaining of parietal abdominal pain who would concern you the most is the one who:",
+    a: ["a) is lying on the floor very still and quiet with his knees drawn up to his chest", "b) is sitting upright in a chair, moaning in pain, and drinking antacid", "c) is rolling about on the floor complaining of pain", "d) walks out to the ambulance informing you he has the worst \"belly ache.\""],
+    correct: 0,
+    explain: "Correct Answer: a) is lying on the floor very still and quiet with his knees drawn up to his chest",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are called to a residence for a 48-year-old male patient. ... You suspect appendicitis and are concerned about the subsequent onset of:",
+    a: ["a) peritonitis", "b) renal colic", "c) splenic rupture", "d) pancreatitis"],
+    correct: 0,
+    explain: "Correct Answer: a) peritonitis",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Your patient was diagnosed with cholecystitis (gallbladder inflammation) three days ago. The patient now presents with nausea, vomiting, and pain in the right shoulder. The pain in the shoulder can be classified as:",
+    a: ["a) referred pain", "b) visceral pain", "c) pancreatic pain", "d) somatic pain"],
+    correct: 0,
+    explain: "Correct Answer: a) referred pain",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is not a cause of parietal pain?",
+    a: ["a) Muscle spasm", "b) Inflammation", "c) Infection", "d) Bleeding into the abdominal cavity"],
+    correct: 0,
+    explain: "Correct Answer: a) Muscle spasm",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are responding to a 52-year-old male patient complaining of heartburn with epigastric pain. ... What is your greatest concern with this patient?",
+    a: ["a) His appendix will rupture", "b) He will aspirate on vomit", "c) He is suffering from a myocardial infarction", "d) He will develop peritonitis"],
+    correct: 2,
+    explain: "Correct Answer: c) He is suffering from a myocardial infarction",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Your patient is a 40-year-old female who has been experiencing abdominal pain and vomiting for 2 days. ... Which of the following is the best position for transporting this patient?",
+    a: ["a) Left lateral recumbent with the legs bent", "b) Supine with the knees bent", "c) Sitting up at a 45-degree angle", "d) Sitting up at a 90-degree angle"],
+    correct: 0,
+    explain: "Correct Answer: a) Left lateral recumbent with the legs bent",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Pain felt in the epigastric region of the abdomen is of concern because of the possibility of which of the following?",
+    a: ["a) Influenza", "b) Myocardial infarction", "c) Extreme diarrhea with dehydration", "d) Kidney stones"],
+    correct: 1,
+    explain: "Correct Answer: b) Myocardial infarction",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You respond to an abdominal pain call. Your partner suspects that the patient is having an abdominal aortic aneurysm (AAA). What type of pain is the patient most likely experiencing?",
+    a: ["a) Parietal", "b) Tearing", "c) Visceral", "d) Referred"],
+    correct: 1,
+    explain: "Correct Answer: b) Tearing",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You respond to a 75-year-old female who is complaining of epigastric pain that feels like heartburn. ... She is most likely suffering from:",
+    a: ["a) renal colic", "b) ectopic pregnancy", "c) cholecystitis", "d) abdominal aortic aneurysm"],
+    correct: 2,
+    explain: "Correct Answer: c) cholecystitis",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are treating a 38-year-old female patient with abdominal distress. ... What is the best position to transport the patient?",
+    a: ["a) Supine", "b) Right lateral", "c) Semi-Fowler's", "d) Position of comfort"],
+    correct: 3,
+    explain: "Correct Answer: d) Position of comfort",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which abdominal quadrant contains the appendix?",
+    a: ["a) Left upper", "b) Left lower", "c) Right upper", "d) Right lower"],
+    correct: 3,
+    explain: "Correct Answer: d) Right lower",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are called to a nursing home for an 85-year-old patient complaining of abdominal pain. ... Aside from the airway, what is your greatest concern?",
+    a: ["a) The patient will have a myocardial infarction", "b) The patient will have a stroke", "c) The patient will become dehydrated", "d) The patient will go into shock"],
+    correct: 3,
+    explain: "Correct Answer: d) The patient will go into shock",
+    cat: "Chapter 26"
+  },
+  {
+    q: "The detection of a bulging mass through the belly button that is not pulsating should make the EMT suspicious that the patient may be suffering from which of the following?",
+    a: ["a) Abdominal aortic aneurysm", "b) Hernia", "c) Ulcer", "d) Gastroenteritis"],
+    correct: 1,
+    explain: "Correct Answer: b) Hernia",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You are examining a 24-year-old female patient with lower quadrant abdominal pain. What is the most lethal possibility?",
+    a: ["a) Menstrual irregularity", "b) Pelvic inflammatory disease", "c) Cholecystitis", "d) Ectopic pregnancy"],
+    correct: 3,
+    explain: "Correct Answer: d) Ectopic pregnancy",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Which of the following is not a cause of abdominal pain?",
+    a: ["a) Food poisoning", "b) Heart attack", "c) Diabetes", "d) Stroke"],
+    correct: 3,
+    explain: "Correct Answer: d) Stroke",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Organs of the right upper quadrant include:",
+    a: ["a) pancreas, spleen, and part of the liver", "b) most of the liver, spleen, and gallbladder", "c) most of the liver, gallbladder, and part of the large intestine", "d) small intestine, stomach, and spleen"],
+    correct: 2,
+    explain: "Correct Answer: c) most of the liver, gallbladder, and part of the large intestine",
+    cat: "Chapter 26"
+  },
+  {
+    q: "You arrive on the scene to find an approximately 60-year-old male patient writhing on the floor. ... You suspect which of the following conditions?",
+    a: ["a) Myocardial infarction", "b) Ruptured appendix", "c) Acute pancreatitis", "d) Abdominal aortic aneurysm"],
+    correct: 3,
+    explain: "Correct Answer: d) Abdominal aortic aneurysm",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Pain that the patient feels in a body part or area of the body that has nothing to do with a diseased organ is termed:",
+    a: ["a) abdominal pain", "b) referred pain", "c) retroperitoneal pain", "d) epigastric pain"],
+    correct: 1,
+    explain: "Correct Answer: b) referred pain",
+    cat: "Chapter 26"
+  },
+  {
+    q: "Pain that originates in an organ, such as the intestines, is called ________ pain.",
+    a: ["a) acute", "b) parietal", "c) visceral", "d) referred"],
+    correct: 2,
+    explain: "Correct Answer: c) visceral",
+    cat: "Chapter 26"
+  },
+
+  // Chapter 27 - Psychiatric Emergencies
+  {
+    q: "You are confronted with a patient experiencing personality changes ranging from irritability to irrational behavior, altered mental status, amnesia or confusion, irregular respirations, elevated blood pressure, and decreasing pulse. ... What else could cause this behavior?",
+    a: ["a) Lack of oxygen", "b) Head injury", "c) Stroke", "d) Low blood sugar"],
+    correct: 1,
+    explain: "Correct Answer: b) Head injury",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Your patient is a 37-year-old male sitting on the kitchen floor. ... What should be your first consideration?",
+    a: ["a) Quickly check the patient's carotid pulse", "b) Ask the wife to step outside with you so you can get information from her", "c) Stay a safe distance away", "d) Ask the wife to step into the other room so you can speak with the patient alone"],
+    correct: 2,
+    explain: "Correct Answer: c) Stay a safe distance away",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following is not an acceptable method or adjunct in restraining a patient?",
+    a: ["a) Securing all four limbs with leather restraints", "b) Restraining the patient face-up", "c) Placing a surgical mask over the patient's face to prevent spitting", "d) Hog-tying the patient"],
+    correct: 3,
+    explain: "Correct Answer: d) Hog-tying the patient",
+    cat: "Chapter 27"
+  },
+  {
+    q: "It is important that, as an EMS provider, you avoid creating a situation where positional asphyxia could occur. Which of the following is positional asphyxia?",
+    a: ["a) Positional asphyxia is the position the person is seated in when you approach him", "b) Positional asphyxia is a birth defect that causes psychiatric issues...", "c) Positional asphyxia is the name for the position someone assumes after she has been hit with a taser", "d) Positional asphyxia is inadequate breathing or respiratory arrest caused by a body position that restricts breathing"],
+    correct: 3,
+    explain: "Correct Answer: d) Positional asphyxia is inadequate breathing or respiratory arrest caused by a body position that restricts breathing",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You are called to the scene of an attempted suicide. ... Which action would not be appropriate in treating this patient?",
+    a: ["a) Contact the receiving hospital and report on current mental status...", "b) Take charge of the situation; let the patient know that what he has done is wrong...", "c) Watch for sudden changes in the patient's behavior and physical condition", "d) As soon as possible, perform a history and physical exam..."],
+    correct: 1,
+    explain: "Correct Answer: b) Take charge of the situation; let the patient know that what he has done is wrong and tell him he is coming with you whether he likes it or not",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When a patient or bystander at the scene of an emergency displays fear, anger, or grief, this is best described as which of the following?",
+    a: ["a) Catharsis", "b) Post-traumatic stress disorder", "c) Neurosis", "d) Stress reaction"],
+    correct: 3,
+    explain: "Correct Answer: d) Stress reaction",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You are on the scene of a possible overdose. ... Attempts at calming the patient should include which of the following?",
+    a: ["a) Sit close to him with your arm around his shoulders...", "b) Stand still with your arms crossed to instill a sense of control...", "c) Repeat part of what the patient is saying to show that you are listening to him", "d) Speak quickly to give the patient all of the important information without delay"],
+    correct: 2,
+    explain: "Correct Answer: c) Repeat part of what the patient is saying to show that you are listening to him",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When restraining a patient, which of the following is not a consideration?",
+    a: ["a) Number of people available to carry out the required actions", "b) Patient's size and strength", "c) How to position the patient", "d) Patient's informed consent"],
+    correct: 3,
+    explain: "Correct Answer: d) Patient's informed consent",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following actions is the most appropriate for the EMT to take when managing a patient with a behavioral emergency?",
+    a: ["a) Find out if the patient's insurance covers psychiatric treatment", "b) Remain calm and reassure the patient", "c) Establish control of the situation by a show of force", "d) Quickly perform a head-to-toe exam and transport without delay"],
+    correct: 1,
+    explain: "Correct Answer: b) Remain calm and reassure the patient",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following may cause a patient to exhibit abnormal behavior?",
+    a: ["a) Snakebites", "b) Gastroenteritis", "c) Hypoxia", "d) Allergic reaction"],
+    correct: 2,
+    explain: "Correct Answer: c) Hypoxia",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When managing a patient who may hurt himself or others, you should do all of the following except:",
+    a: ["a) make sure only you and the patient are in the room", "b) retreat if the patient becomes threatening", "c) watch for sudden changes in the patient's behavior", "d) keep bystanders a safe distance away"],
+    correct: 0,
+    explain: "Correct Answer: a) make sure only you and the patient are in the room",
+    cat: "Chapter 27"
+  },
+  {
+    q: "There are general rules for dealing with psychiatric emergencies. Which of the following is not one of those rules and would not be considered appropriate?",
+    a: ["a) Never make eye contact with the patient, as it will just increase his nervousness", "b) Speak slowly and clearly, using a calm and reassuring tone", "c) Listen to the patient. You can show you are listening by repeating part of what the patient says back to him", "d) Identify yourself and your role"],
+    correct: 0,
+    explain: "Correct Answer: a) Never make eye contact with the patient, as it will just increase his nervousness",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You are dispatched to a local fast-food restaurant for a \"nature unknown\" call. ... Which of the following would be considered appropriate care?",
+    a: ["a) Quietly and carefully evaluate the situation and keep your emotions under control. Be as unhurried as you can", "b) Have your partner join you in approaching the patient and explain to him that he has to stop singing or you will have him arrested", "c) Quickly approach the patient and take charge...", "d) Have the police take charge, restrain the patient..."],
+    correct: 0,
+    explain: "Correct Answer: a) Quietly and carefully evaluate the situation and keep your emotions under control. Be as unhurried as you can",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following statements regarding behavioral emergencies is false?",
+    a: ["a) Cultural differences may cause a patient's behavior to initially appear abnormal to the EMT", "b) Patients experiencing a behavioral emergency are not always dangerous to themselves or others", "c) Apparent behavioral emergencies may be due to an underlying medical cause", "d) It is unusual to find a person with schizophrenia outside a mental health facility"],
+    correct: 3,
+    explain: "Correct Answer: d) It is unusual to find a person with schizophrenia outside a mental health facility",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following communication strategies should be used when dealing with a patient with a behavioral emergency?",
+    a: ["a) Acknowledge the patient's feelings", "b) Interrupt the patient if he appears to be going off on a tangent...", "c) Play along with any visual or auditory hallucinations the patient is experiencing", "d) Stay 2 to 3 inches from the patient at all times to make him feel secure"],
+    correct: 0,
+    explain: "Correct Answer: a) Acknowledge the patient's feelings",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When dealing with a psychiatric emergency, which one of the following would generally be inappropriate behavior on your part?",
+    a: ["a) Stay alert for sudden changes in behavior", "b) Be as hurried as you can. It is extremely important to resolve the call and get the patient to the hospital as soon as possible", "c) Let the patient know that you are listening to what he is saying...", "d) Act in a calm manner, giving the patient time to gain control of his emotions"],
+    correct: 1,
+    explain: "Correct Answer: b) Be as hurried as you can. It is extremely important to resolve the call and get the patient to the hospital as soon as possible",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following traumatic conditions could account for signs and symptoms of a behavioral emergency?",
+    a: ["a) Fractured tibia", "b) Hemorrhage", "c) Fractured lumbar vertebra", "d) Partial thickness burn"],
+    correct: 1,
+    explain: "Correct Answer: b) Hemorrhage",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Your patient is a 22-year-old male who has ingested a large amount of alcohol and is vomiting. ... Which of the following is the best action?",
+    a: ["a) Contact medical direction for further advice", "b) Find a relative or neighbor to come over and stay with the patient", "c) Stay with the patient until he has stopped vomiting", "d) Obtain a witnessed refusal"],
+    correct: 0,
+    explain: "Correct Answer: a) Contact medical direction for further advice",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following situations generally allows the EMT to transport a patient with a behavioral emergency against his or her wishes?",
+    a: ["a) The patient's insurance company agrees to pay...", "b) The patient is a threat to himself or others", "c) A family member gives consent and is willing to accompany the patient", "d) The patient's personal physician gives you permission"],
+    correct: 1,
+    explain: "Correct Answer: b) The patient is a threat to himself or others",
+    cat: "Chapter 27"
+  },
+  {
+    q: "EMTs may come across a situation where a patient begins to act extremely agitated or psychotic. ... This condition is called:",
+    a: ["a) psychotic delirium", "b) excited psychosis", "c) bipolar disorder", "d) excited or agitated delirium"],
+    correct: 3,
+    explain: "Correct Answer: d) excited or agitated delirium",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Neurotransmitters are chemicals within the body that transmit the message ... Which one of the following sentences is false?",
+    a: ["a) The receptors on the postsynaptic neuron receive the neurotransmitter", "b) This is the mechanism by which the impulse is moved along the nervous system", "c) After the impulse is transmitted, the neurotransmitter goes through a process called reuptake...", "d) Neurotransmitters are released from a neuron, then travel across the synapse to the next neuron"],
+    correct: 2,
+    explain: "Correct Answer: c) After the impulse is transmitted, the neurotransmitter goes through a process called reuptake, in which the neurotransmitter is returned to the postsynaptic neuron",
+    cat: "Chapter 27"
+  },
+  {
+    q: "According to coworkers, your 25-year-old female patient suddenly began acting aggressively ... Which of the following would be an appropriate general impression?",
+    a: ["a) Alcohol withdrawal", "b) An underlying physical illness", "c) Alcoholic intoxication", "d) Sudden onset of schizophrenia"],
+    correct: 1,
+    explain: "Correct Answer: b) An underlying physical illness",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which combination of the following is most appropriate when assessing an emotionally disturbed patient?",
+    a: ["a) Listen to the patient without being judgmental and do not make eye contact", "b) Establish eye and verbal contact and listen to the patient without being judgmental", "c) Establish eye and verbal contact and use assertive body language...", "d) Listen to the patient and maintain a safe distance to avoid upsetting the patient"],
+    correct: 1,
+    explain: "Correct Answer: b) Establish eye and verbal contact and listen to the patient without being judgmental",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You respond to the scene of a private residence for a patient who is known to have insulin-dependent diabetes. The patient is combative and cursing as you approach. Should this patient be restrained?",
+    a: ["a) No, this patient is not likely experiencing a behavioral emergency", "b) Yes, he is combative and all combative patients can be restrained", "c) Yes, he likely has a medical condition that requires treatment", "d) There is not enough information to answer this question"],
+    correct: 3,
+    explain: "Correct Answer: d) There is not enough information to answer this question",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Your patient is a 15-year-old female who has been diagnosed with a personality disorder. ... Which of the following is the best way to handle this situation?",
+    a: ["a) Have a female EMT attend to the patient", "b) Transport the patient, but do not speak to her or perform an assessment", "c) Refuse to transport the patient without a police escort", "d) Ask that the patient be given a tranquilizer injection prior to transport"],
+    correct: 0,
+    explain: "Correct Answer: a) Have a female EMT attend to the patient",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When responding to an attempted suicide, which of the following is the EMT's primary concern?",
+    a: ["a) Managing the patient's airway", "b) Contacting law enforcement because suicide is illegal", "c) Determining whether the patient suffers from clinical depression", "d) Personal safety"],
+    correct: 3,
+    explain: "Correct Answer: d) Personal safety",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following must be treated by the EMT if present in a patient with an apparent behavioral emergency?",
+    a: ["a) Acute alcohol intoxication", "b) Severe clinical depression", "c) Hypoglycemia", "d) Suicidal ideology"],
+    correct: 2,
+    explain: "Correct Answer: c) Hypoglycemia",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You are dispatched to a psychiatric emergency for a 68-year-old male. ... which step is the most important?",
+    a: ["a) Vital signs and SAMPLE history", "b) Primary assessment", "c) Scene size-up", "d) Secondary assessment"],
+    correct: 2,
+    explain: "Correct Answer: c) Scene size-up",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You are dispatched to a suicide attempt. ... Which of the following would not be appropriate in caring for this patient?",
+    a: ["a) Make certain the patient gets between you and the door. The patient should always feel he has an escape route", "b) Do not take any action that may be considered threatening by the patient...", "c) Always be on the watch for weapons", "d) Do not isolate yourself from your partner or other sources of help"],
+    correct: 0,
+    explain: "Correct Answer: a) Make certain the patient gets between you and the door. The patient should always feel he has an escape route",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Your patient is a 24-year-old male who is severely depressed. ... Which of the following is the most appropriate decision regarding this patient's care?",
+    a: ["a) Transport the patient against his will with the assistance of law enforcement", "b) Respect the patient's wishes; he is alert, oriented, and capable of giving consent", "c) Contact the patient's family to find out what their wishes are", "d) Leave the scene and allow law enforcement to handle the situation"],
+    correct: 0,
+    explain: "Correct Answer: a) Transport the patient against his will with the assistance of law enforcement",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following statements concerning people who have made prior suicide attempts is true?",
+    a: ["a) They are at an increased risk for a subsequent successful suicide", "b) They do not require psychological counseling like a person who is depressed", "c) They should be allowed to sign a release if their injuries are not serious", "d) They are usually just making a cry for help but do not want to die"],
+    correct: 0,
+    explain: "Correct Answer: a) They are at an increased risk for a subsequent successful suicide",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When providing emergency care to an aggressive or hostile patient, what is the highest priority?",
+    a: ["a) Checking the patient for possible physical causes of the behavior", "b) Calming the patient down", "c) Finding out if the patient is oriented to person, time, and place", "d) Performing a scene size-up"],
+    correct: 3,
+    explain: "Correct Answer: d) Performing a scene size-up",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following medical conditions could be the underlying cause of an apparent behavioral emergency?",
+    a: ["a) Stroke", "b) Mental illness", "c) Hypoglycemia", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 27"
+  },
+  {
+    q: "All of the following are general rules for dealing with a psychiatric patient except:",
+    a: ["a) do not be judgmental; instead, show pity, because he needs to know that you understand him", "b) speak slowly and clearly, and use a calm and reassuring tone", "c) make eye contact with the patient", "d) listen to the patient, showing you are listening by repeating part of what the patient says back to him"],
+    correct: 0,
+    explain: "Correct Answer: a) do not be judgmental; instead, show pity, because he needs to know that you understand him",
+    cat: "Chapter 27"
+  },
+  {
+    q: "It can sometimes be difficult to determine whether someone who is showing unusual behavior is having a psychological emergency or is showing an altered mental status due to a physical issue. Which of the following statements are true?",
+    a: ["a) 1, 2, 3", "b) 1, 2", "c) 1, 2, 3, 4", "d) 1, 3, 4"],
+    correct: 2,
+    explain: "Correct Answer: c) 1, 2, 3, 4",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following does not indicate that a patient may be about to become violent?",
+    a: ["a) Rapid speech and movement", "b) Rapid pulse and breathing", "c) Tense body posture or clenched fists", "d) Crying"],
+    correct: 3,
+    explain: "Correct Answer: d) Crying",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following factors suggest that a patient is at risk for suicide?",
+    a: ["a) Alcohol and drug abuse", "b) Sudden improvement in depression", "c) Recent emotional trauma", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Your patient is exhibiting bizarre and aggressive behavior; he starts shouting and becomes violent. ... This behavior is known as:",
+    a: ["a) chemical delirium", "b) excited delirium", "c) delusions", "d) sensory excitement"],
+    correct: 1,
+    explain: "Correct Answer: b) excited delirium",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Why is it important to gather a detailed medical history when dealing with a psychiatric emergency?",
+    a: ["a) It will alert you to past issues as well as medication", "b) It is not. You want to get the call resolved as quickly as possible...", "c) It will help you to determine whether the police are needed", "d) It will help you to determine whether you need to restrain the patient"],
+    correct: 0,
+    explain: "Correct Answer: a) It will alert you to past issues as well as medication",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following patients would be considered to be at the greatest risk for suicide?",
+    a: ["a) 22-year-old man who has lost his job and is getting divorced", "b) 30-year-old married man who has just learned that his employer is transferring him to a different state", "c) 35-year-old female who has a child with a serious illness", "d) 44-year-old woman who has just recovered from a serious illness"],
+    correct: 0,
+    explain: "Correct Answer: a) 22-year-old man who has lost his job and is getting divorced",
+    cat: "Chapter 27"
+  },
+  {
+    q: "You are on the scene where a 23-year-old female has attempted suicide by cutting her forearms with a razor. ... Which of the following should not be done?",
+    a: ["a) Keep bystanders away from the patient", "b) Use Standard Precautions", "c) Take the razor blade away from her by force", "d) Call law enforcement for assistance"],
+    correct: 2,
+    explain: "Correct Answer: c) Take the razor blade away from her by force",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following statements concerning forcible restraint of patients is true?",
+    a: ["a) It is easily accomplished by two EMTs with a good plan", "b) It causes irreparable emotional harm to most patients", "c) This is necessary only with mentally ill individuals", "d) This is normally considered to be within the jurisdiction of law enforcement"],
+    correct: 3,
+    explain: "Correct Answer: d) This is normally considered to be within the jurisdiction of law enforcement",
+    cat: "Chapter 27"
+  },
+  {
+    q: "When a person acts in a manner that is unacceptable to himself or those around him, this would be considered which of the following?",
+    a: ["a) Mental illness", "b) Psychotic episode", "c) Psychosomatic reaction", "d) Behavioral emergency"],
+    correct: 3,
+    explain: "Correct Answer: d) Behavioral emergency",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Concerning attempted suicide, which of the following statements is true?",
+    a: ["a) All suicide attempts must be taken seriously", "b) There is always an indication that a suicide attempt is imminent", "c) Truly suicidal patients nearly always leave a note", "d) Attempted suicide is a matter for law enforcement, not EMS"],
+    correct: 0,
+    explain: "Correct Answer: a) All suicide attempts must be taken seriously",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Once you have established with reasonable certainty that your patient is suffering from a behavioral emergency, which of the following is the best course of action?",
+    a: ["a) Begin intense individual counseling with the patient", "b) Attempt to determine whether there is a possible physical cause for the patient's behavior", "c) Establish the best way to restrain the patient before he has the opportunity to become violent", "d) There is no need to assess for medical conditions if the patient does not have a history of past medical problems"],
+    correct: 1,
+    explain: "Correct Answer: b) Attempt to determine whether there is a possible physical cause for the patient's behavior",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following is acceptable when managing the patient with a behavioral or psychiatric emergency?",
+    a: ["a) Sit as close to the patient as you can to reassure him that you will not abandon him", "b) Make supportive statements such as, \"That must have been very hard for you.\"", "c) Go along with the patient's hallucinations or false beliefs", "d) Allow family members to confront the patient about his behavior"],
+    correct: 1,
+    explain: "Correct Answer: b) Make supportive statements such as, \"That must have been very hard for you.\"",
+    cat: "Chapter 27"
+  },
+  {
+    q: "Which of the following statements concerning behavioral emergencies is true?",
+    a: ["a) A person with a behavioral emergency is mentally ill", "b) It may be difficult to determine what behavior is abnormal for a given person in a given situation", "c) The person with a behavioral emergency requires prolonged institutionalization", "d) Emotional outbursts are considered behavioral emergencies"],
+    correct: 1,
+    explain: "Correct Answer: b) It may be difficult to determine what behavior is abnormal for a given person in a given situation",
+    cat: "Chapter 27"
+  },
+
+  // Chapter 28 - Renal and Urologic Emergencies (Final Section)
+  {
+    q: "Which of the following medications does not interfere with the blood-clotting process?",
+    a: ["a) Aspirin", "b) Acetaminophen", "c) Clopidogrel", "d) Warfarin"],
+    correct: 1,
+    explain: "Correct Answer: b) Acetaminophen",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The most frequently transplanted organ is the:",
+    a: ["a) pancreas", "b) liver", "c) kidney", "d) heart"],
+    correct: 2,
+    explain: "Correct Answer: c) kidney",
+    cat: "Chapter 28"
+  },
+  {
+    q: "A patient with renal disease who is currently on dialysis and missed an appointment may present with dangerously high levels of the electrolyte:",
+    a: ["a) potassium", "b) sodium", "c) calcium", "d) phosphorous"],
+    correct: 0,
+    explain: "Correct Answer: a) potassium",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Which of the following pathologies put patients at high risk for acute renal failure?",
+    a: ["a) Uncontrolled diabetes", "b) Shock", "c) Polycystic kidney disease", "d) Hypertension"],
+    correct: 1,
+    explain: "Correct Answer: b) Shock",
+    cat: "Chapter 28"
+  },
+  {
+    q: "What is continuous ambulatory peritoneal dialysis?",
+    a: ["a) A type of dialysis that is performed while walking", "b) A mechanical process for peritoneal dialysis in which a machine fills and empties the abdominal cavity of dialysis solution", "c) A gravity exchange process for peritoneal dialysis in which a bag of dialysis fluid is lowered below the level of an abdominal catheter to fill the abdominal cavity and raised above the level of the abdominal catheter to drain the fluid out", "d) A gravity exchange process for peritoneal dialysis in which a bag of dialysis fluid is raised above the level of an abdominal catheter to fill the abdominal cavity and lowered below the level of the abdominal catheter to drain the fluid out"],
+    correct: 3,
+    explain: "Correct Answer: d) A gravity exchange process for peritoneal dialysis in which a bag of dialysis fluid is raised above the level of an abdominal catheter to fill the abdominal cavity and lowered below the level of the abdominal catheter to drain the fluid out",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Patients who dialyze at home are at high risk for what type of infection?",
+    a: ["a) Peritonitis", "b) Cellulitis", "c) Decubitus ulcers", "d) Fistula infection"],
+    correct: 0,
+    explain: "Correct Answer: a) Peritonitis",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You are attending to an end-stage renal disease (ESRD) patient who has missed dialysis. Which of the following statements is most accurate?",
+    a: ["a) You should delay transport if necessary to wait for ALS", "b) Patients who have missed dialysis and who become unresponsive and pulseless respond very well to the use of an AED", "c) Calling for ALS would not be very helpful because they cannot really do anything that an EMT cannot do in these situations", "d) Patients who have missed dialysis and who become unresponsive and pulseless do not respond very well to the use of an AED"],
+    correct: 3,
+    explain: "Correct Answer: d) Patients who have missed dialysis and who become unresponsive and pulseless do not respond very well to the use of an AED",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Which of the following is the most accurate definition of anemia?",
+    a: ["a) A lack of a normal number of red blood cells in the circulation", "b) The loss of the kidneys' ability to filter the blood and remove toxins and excess fluid from the body", "c) An inherited disease in which a genetic defect in the hemoglobin results in abnormal structure of the red blood cells", "d) The process by which toxins and excess fluid are removed from the body by a medical system independent of the kidneys"],
+    correct: 0,
+    explain: "Correct Answer: a) A lack of a normal number of red blood cells in the circulation",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Which of the following organs may be seriously damaged in sickle cell anemia, subsequently leading to severe infections?",
+    a: ["a) Spleen", "b) Lungs", "c) Liver", "d) Kidneys"],
+    correct: 0,
+    explain: "Correct Answer: a) Spleen",
+    cat: "Chapter 28"
+  },
+  {
+    q: "What is a cycle of filling and draining of the abdominal cavity during peritoneal dialysis called?",
+    a: ["a) Set", "b) Trade", "c) Rotation", "d) Exchange"],
+    correct: 3,
+    explain: "Correct Answer: d) Exchange",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You are dispatched to a private residence for a sick person. When you arrive, you are told by the patient that due to the snow storm yesterday he missed his scheduled appointment at the dialysis center and is not feeling well. ... Which of the steps below would not be part of your care?",
+    a: ["a) When you obtain vital signs, obtain a blood pressure on an arm that does not have a fistula", "b) Assess the ABCs", "c) Administer oxygen at 15 lpm by nonrebreather mask", "d) Place the patient in a supine position"],
+    correct: 3,
+    explain: "Correct Answer: d) Place the patient in a supine position",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Patients with a history of chronic sickle cell anemia (SCA) may present with which of the following signs and symptoms?",
+    a: ["a) Yellowing of the skin and dyspnea on exertion", "b) Pale appearance and dyspnea on exertion", "c) Bluish discoloration of the skin and shortness of breath", "d) Flushed appearance and shortness of breath"],
+    correct: 0,
+    explain: "Correct Answer: a) Yellowing of the skin and dyspnea on exertion",
+    cat: "Chapter 28"
+  },
+  {
+    q: "How long does a typical hemodialysis treatment last?",
+    a: ["a) 1 to 2 hours", "b) 10 to 12 hours", "c) 7 to 8 hours", "d) 3 to 4 hours"],
+    correct: 3,
+    explain: "Correct Answer: d) 3 to 4 hours",
+    cat: "Chapter 28"
+  },
+  {
+    q: "________ patients are at high risk for acquiring the inherited disorder called sickle cell anemia.",
+    a: ["a) Hispanic", "b) Native American", "c) Eastern European", "d) African American"],
+    correct: 3,
+    explain: "Correct Answer: d) African American",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Approximately how many Americans are currently on some type of dialysis?",
+    a: ["a) 200,000", "b) 900,000", "c) 100,000", "d) 450,000"],
+    correct: 3,
+    explain: "Correct Answer: d) 450,000",
+    cat: "Chapter 28"
+  },
+  {
+    q: "How frequently is peritoneal dialysis treatment required?",
+    a: ["a) Multiple treatments per day", "b) Three to five times per week", "c) Once a week", "d) Once a day"],
+    correct: 0,
+    explain: "Correct Answer: a) Multiple treatments per day",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Platelets are actually fragments of larger cells that are crucial to the formation of clots. ... One of the most effective and widely available drugs to prevent the aggregation of platelets is:",
+    a: ["a) aspirin", "b) acetaminophen", "c) hemoglobin", "d) plasma"],
+    correct: 0,
+    explain: "Correct Answer: a) aspirin",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You are dispatched to a private residence for a sick person. You arrive and find a 47-year-old male patient who recently completed his peritoneal dialysis and complains of severe abdominal pain ... What would be the tell-tale sign that this is what is happening in this case?",
+    a: ["a) The patient's dialysis fluid appears clear when it is drained from the peritoneal cavity rather than having its normal cloudy appearance", "b) The patient's dialysis fluid appears cloudy when it is drained from the peritoneal cavity rather than having its normal clear appearance", "c) The patient has trouble urinating", "d) The patient has swollen ankles"],
+    correct: 1,
+    explain: "Correct Answer: b) The patient's dialysis fluid appears cloudy when it is drained from the peritoneal cavity rather than having its normal clear appearance",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Once you encounter uncontrolled bleeding from an AV fistula, which of the following methods would you consider using to control bleeding in addition to direct pressure and elevation?",
+    a: ["a) Pressure points", "b) Hemostatic dressings", "c) Internal wound management", "d) Tourniquet"],
+    correct: 1,
+    explain: "Correct Answer: b) Hemostatic dressings",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Under which of the following circumstances do the kidneys help the body retain fluid?",
+    a: ["a) Urinary tract infection", "b) Kidney stones", "c) Electrolyte imbalance", "d) Dehydration"],
+    correct: 3,
+    explain: "Correct Answer: d) Dehydration",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You are dispatched to an unconscious hemodialysis patient. ... The best approach is to:",
+    a: ["a) begin transporting and contact an ALS intercept. The patient's dysrhythmia may be related to kidney failure", "b) continue defibrillating as the monitor recommends...", "c) call online medical control to terminate the code...", "d) run a \"no-electricity\" code in which compressions and ventilation are continued..."],
+    correct: 0,
+    explain: "Correct Answer: a) begin transporting and contact an ALS intercept. The patient's dysrhythmia may be related to kidney failure",
+    cat: "Chapter 28"
+  },
+  {
+    q: "What is one of the most common diseases to affect the renal and urinary system?",
+    a: ["a) Urinary tract infections", "b) Kidney stones", "c) End-stage renal disease", "d) Acute renal failure"],
+    correct: 0,
+    explain: "Correct Answer: a) Urinary tract infections",
+    cat: "Chapter 28"
+  },
+  {
+    q: "A patient with a medical history of sickle cell anemia is complaining of chest pain and shortness of breath. ... The best approach regarding supplemental oxygen is to:",
+    a: ["a) do nothing; no supplemental oxygen is necessary", "b) place the patient on a simple face mask", "c) place the patient on a nonrebreather mask", "d) place the patient on a nasal cannula"],
+    correct: 2,
+    explain: "Correct Answer: c) place the patient on a nonrebreather mask",
+    cat: "Chapter 28"
+  },
+  {
+    q: "What is the purpose of the red blood cells?",
+    a: ["a) They are responsible for the removal of oxygen from the cells", "b) They are critical in response to infection and are mediators of the body's immune response", "c) They are crucial in the formation of clots", "d) They are responsible for the delivery of oxygen to the cells"],
+    correct: 3,
+    explain: "Correct Answer: d) They are responsible for the delivery of oxygen to the cells",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Peritoneal dialysis allows patients to dialyze at home through:",
+    a: ["a) a dialysis machine", "b) an AV fistula", "c) the abdomen", "d) the urethra"],
+    correct: 2,
+    explain: "Correct Answer: c) the abdomen",
+    cat: "Chapter 28"
+  },
+  {
+    q: "There are two main types of dialysis, hemodialysis and peritoneal dialysis. The main difference between them is:",
+    a: ["a) hemodialysis is usually done at home and peritoneal dialysis is usually done at a special facility", "b) hemodialysis filters the urine and peritoneal dialysis filters the blood", "c) hemodialysis filters the blood and peritoneal dialysis filters the urine", "d) hemodialysis is usually done at a special facility and peritoneal dialysis is usually done at home"],
+    correct: 3,
+    explain: "Correct Answer: d) hemodialysis is usually done at a special facility and peritoneal dialysis is usually done at home",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You encounter a patient who has been having diffuse abdominal pain for one week. ... You suspect the patient is experiencing:",
+    a: ["a) chronic anemia", "b) acute anemia", "c) sickle cell anemia", "d) anxiety disorder"],
+    correct: 0,
+    explain: "Correct Answer: a) chronic anemia",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Dialysis patients who have missed an appointment may present with signs of ________, which is a similar presentation to ________.",
+    a: ["a) neurological disturbances; stroke", "b) chest pain; acute myocardial infarction", "c) shortness of breath; pneumonia", "d) fluid accumulation; congestive heart failure"],
+    correct: 3,
+    explain: "Correct Answer: d) fluid accumulation; congestive heart failure",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You suspect a patient who has been having a difficult time controlling the bleeding following a small laceration to the foot may have a history of:",
+    a: ["a) high blood pressure", "b) taking blood thinners", "c) sickle cell anemia", "d) poorly controlled diabetes"],
+    correct: 1,
+    explain: "Correct Answer: b) taking blood thinners",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Because of abnormally shaped hemoglobin, sickle cell anemia (SCA) patients may occasionally experience ________, causing a blockage of small blood vessels.",
+    a: ["a) sludging", "b) aggregation", "c) clumping", "d) clotting"],
+    correct: 0,
+    explain: "Correct Answer: a) sludging",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Certain drugs are commonly referred as \"blood thinners\" or drugs that inhibit clotting. Which of the following would not be considered such a drug?",
+    a: ["a) Aspirin", "b) Lovenox (enoxaparin)", "c) Prilosec", "d) Coumadin (warfarin)"],
+    correct: 2,
+    explain: "Correct Answer: c) Prilosec",
+    cat: "Chapter 28"
+  },
+  {
+    q: "How many times per week do the majority of American hemodialysis patients receive treatment?",
+    a: ["a) Three", "b) Seven", "c) One", "d) Five"],
+    correct: 0,
+    explain: "Correct Answer: a) Three",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Hemodialysis is used to help the kidneys filter ________ and remove excess ________.",
+    a: ["a) urine; poisons", "b) electrolytes; hormones", "c) toxins; fluids", "d) blood; cholesterol"],
+    correct: 2,
+    explain: "Correct Answer: c) toxins; fluids",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The sensation felt when palpating an arterial-venous fistula or shunt is known as a:",
+    a: ["a) fluttering", "b) bruit", "c) frill", "d) thrill"],
+    correct: 3,
+    explain: "Correct Answer: d) thrill",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Approximately what percentage of United States dialysis patients treat themselves at home?",
+    a: ["a) 16 percent", "b) 25 percent", "c) 50 percent", "d) 8 percent"],
+    correct: 3,
+    explain: "Correct Answer: d) 8 percent",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The medications that transplant patients need to take for the rest of their lives to prevent organ rejection also often lead to high susceptibility of:",
+    a: ["a) renal failure", "b) congestive heart failure", "c) ulcers", "d) infection"],
+    correct: 3,
+    explain: "Correct Answer: d) infection",
+    cat: "Chapter 28"
+  },
+  {
+    q: "One of the more serious diseases of the body is renal failure. Renal failure occurs when the:",
+    a: ["a) kidneys fail to function as required", "b) liver fails to function properly", "c) adrenal glands stop working", "d) pancreas stops working"],
+    correct: 0,
+    explain: "Correct Answer: a) kidneys fail to function as required",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You are dispatched to a private residence for a 52-year-old African American male sitting in his living room complaining of chest pain. During your assessment, he discloses that he has the sickle cell trait. Because of this you should:",
+    a: ["a) monitor for signs of inadequate respiration", "b) treat the patient as any other 52-year-old with chest pain", "c) administer high-concentration oxygen", "d) be prepared to treat for shock if he also has a high fever"],
+    correct: 1,
+    explain: "Correct Answer: b) treat the patient as any other 52-year-old with chest pain",
+    cat: "Chapter 28"
+  },
+  {
+    q: "You are dispatched to a sick call. The patient was just extricated from a bathtub where he was trapped under the shower door for 2 days. ... What do you think is the underlying cause for the illness?",
+    a: ["a) Chronic renal failure", "b) Acute renal failure", "c) End-stage renal disease", "d) Gastrointestinal infection"],
+    correct: 1,
+    explain: "Correct Answer: b) Acute renal failure",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Which of the following abbreviations is not correct?",
+    a: ["a) CAPD for continuous acute peripheral disease", "b) RBC for red blood cells", "c) SCA for sickle cell anemia", "d) WBC for white blood cells"],
+    correct: 0,
+    explain: "Correct Answer: a) CAPD for continuous acute peripheral disease",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The correct terminology used for patients whose kidneys are damaged to the point where they require dialysis to survive is:",
+    a: ["a) end-stage renal disease", "b) acute renal failure", "c) terminal kidney disease", "d) hepatic failure"],
+    correct: 0,
+    explain: "Correct Answer: a) end-stage renal disease",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The kidney's major function(s) include(s):",
+    a: ["a) balancing electrolytes", "b) maintaining blood volume", "c) excreting urea", "d) All of the above"],
+    correct: 3,
+    explain: "Correct Answer: d) All of the above",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The blood has many functions critical to a patient's health. Which of the following is not a function of the blood?",
+    a: ["a) Removal and delivery of waste products to organs that provide filtration and removal, such as the kidneys and liver", "b) Control of bleeding by clotting", "c) Removal of carbon monoxide from the cells", "d) Delivery of oxygen to the cells"],
+    correct: 2,
+    explain: "Correct Answer: c) Removal of carbon monoxide from the cells",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Two chronic medical conditions that dialysis patients frequently have in addition to kidney failure are ________ and ________.",
+    a: ["a) high cholesterol; cerebral aneurysms", "b) heart failure; stroke", "c) blood clots; COPD", "d) hypertension; diabetes"],
+    correct: 3,
+    explain: "Correct Answer: d) hypertension; diabetes",
+    cat: "Chapter 28"
+  },
+  {
+    q: "Which of the following medications does not interfere with the blood-clotting process?",
+    a: ["a) Aspirin", "b) Acetaminophen", "c) Clopidogrel", "d) Warfarin"],
+    correct: 1,
+    explain: "Correct Answer: b) Acetaminophen",
+    cat: "Chapter 28"
+  },
+  {
+    q: "The most frequently transplanted organ is the:",
+    a: ["a) pancreas", "b) liver", "c) kidney", "d) heart"],
+    correct: 2,
+    explain: "Correct Answer: c) kidney",
+    cat: "Chapter 28"
+  },
+  {
+    q: "A patient with renal disease who is currently on dialysis and missed an appointment may present with dangerously high levels of the electrolyte:",
+    a: ["a) potassium", "b) sodium", "c) calcium", "d) phosphorous"],
+    correct: 0,
+    explain: "Correct Answer: a) potassium",
+    cat: "Chapter 28"
+  }
+    ];
+    // =========================================================================
+
+    let currentQuestion = 0;
+    let userAnswers = [];
+    let shuffledIndices = [];
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function initQuiz() {
+      if (quizData.length === 0) {
+        alert("Please paste your full quizData array into the script!");
+        return;
+      }
+
+      // Create shuffled order
+      shuffledIndices = quizData.map((_, i) => i);
+      shuffleArray(shuffledIndices);
+
+      userAnswers = new Array(quizData.length).fill(null);
+      currentQuestion = 0;
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const originalIndex = shuffledIndices[currentQuestion];
+      const q = quizData[originalIndex];
+
+      document.getElementById('category').textContent = q.cat || "EMT Unit 5";
+      document.getElementById('question').innerHTML = q.q;
+      document.getElementById('current-q').textContent = currentQuestion + 1;
+
+      const progress = ((currentQuestion + 1) / quizData.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = '';
+
+      q.a.forEach((option, index) => {
+        const div = document.createElement('div');
+        div.className = `option p-5 border-2 rounded-2xl cursor-pointer text-lg ${userAnswers[originalIndex] === index ? 'selected border-blue-500' : 'border-gray-200 hover:border-blue-300'}`;
+        div.innerHTML = option;
+        div.onclick = () => {
+          userAnswers[originalIndex] = index;
+          loadQuestion();
+        };
+        optionsDiv.appendChild(div);
+      });
+
+      const explainDiv = document.getElementById('explanation');
+      if (userAnswers[originalIndex] !== null) {
+        document.getElementById('explain-text').innerHTML = `<strong class="text-emerald-700">${q.explain}</strong>`;
+        explainDiv.classList.remove('hidden');
+      } else {
+        explainDiv.classList.add('hidden');
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        alert("🎉 You have completed the quiz! Great job!");
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "ArrowRight") nextQuestion();
+      if (e.key === "ArrowLeft") prevQuestion();
+    });
+
+    window.onload = initQuiz;
+  </script>
+</body>
+</html>
